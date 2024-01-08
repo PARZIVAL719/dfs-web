@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 function Doctor_Payment() {
   return (
     <div>
-      <header className="card-header rounded-top-0  bg-secondary py-1 ">
+      <header className="card-header navbar bg-secondary py-2">
         <div className="text-light">Payment/Tax Information</div>
       </header>
       <div className="card-body">

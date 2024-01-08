@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function Doctor_Detail() {
   return (
       <div>
-        <header className="card-header bg-secondary py-1 d-flex justify-content-between align-items-center">
+        <header className="card-header bg-secondary py-2 d-flex justify-content-between align-items-center">
           <div className="text-light">Doctor Detail</div>
           <div>
             <button type="button" className="btn btn-light btn-sm border border-secondary">Save</button>

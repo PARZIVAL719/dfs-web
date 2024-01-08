@@ -18,10 +18,10 @@ import NewpageButton from "../router/Newpage";
 
 const DoctorDetail = () => {
   return (
-    <div className=" fw-semibold font">
+    <div className=" fw-semibold">
   <div className="container">
     <div className="row">
-      <div className="card border-0">
+      <div className="card border-0 ">
         <div className="card-body">
           <div className="card">
             <Doctor_Detail />
@@ -33,7 +33,7 @@ const DoctorDetail = () => {
             <Doctor_Note />
             <Doctor_File />
             <div>
-              <header className="card-header navbar bg-secondary py-1 d-flex justify-content-between align-items-center">
+              <header className="card-header navbar bg-secondary py-2 d-flex justify-content-between align-items-center">
                 <div>
                   <button type="button" className="btn btn-light btn-sm border border-secondary" >Reset</button>
                 </div>

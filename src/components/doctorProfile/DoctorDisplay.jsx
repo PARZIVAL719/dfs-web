@@ -1,15 +1,27 @@
-import React from 'react'
+import React, {useRef, useEffect} from 'react'
 import NewpageButton from '../router/Newpage.jsx'
 import{ useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // const navigate = useNavigate();
 // const change =()=>{
-
+import DataTables from 'datatables.net-bs5'
 
 
 // }
 
 function DoctorDisplay({data}) {
+
+    const tableRef = useRef()
+
+    useEffect(()=>{
+        const dt = new DataTables(tableRef.current,{
+            pagingType:"full_numbers"
+        })
+
+        return()=>{
+            dt.destroy()
+        }
+    },[])
 
   return (
 
@@ -18,7 +30,19 @@ function DoctorDisplay({data}) {
             <div className="text-light ">Doctor Detail</div>
             <NewpageButton/>
         </header>
-        <div className='card-body d-flex flex-column justify-content-center' id="content">
+        <div className='card-body'>
+            <table className="table table-striped border border-light-subtle table-bordered mt-2" ref={tableRef}>
+                <thead>
+                    <tr>
+                        <th>Doctor Code</th>
+                        <th>Doctor Name</th>
+                        <th>Category</th>
+                        <th>Active</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        {/* <div className='card-body d-flex flex-column justify-content-center' id="content">
             <div className='d-sm-flex flex-sm-row justify-content-center justify-content-sm-between mb-2'>
                 <div className='text-center mb-2'>
                     <label id="dataTables_length ">
@@ -55,14 +79,14 @@ function DoctorDisplay({data}) {
                                 <th className="border-2 text-center bg-dark-subtle " colSpan={4}>No data available in table</th>
                             </tr>: 
                             <tr>
-                                {/* {data.map((item)=>(
-                                    <> */}
+                                {data.map((item)=>(
+                                    <>
                                         <th className="border-2 text-right">asda</th>
                                         <th className="border-2 text-right">asdas</th>
                                         <th className="border-2 text-right">asdasd</th>
                                         <th className="border-2 text-right">asdasd</th>
-                                    {/* </>
-                                ))} */}
+                                    </>
+                                ))}
                             </tr>
                             }
                     </tbody>
@@ -82,7 +106,7 @@ function DoctorDisplay({data}) {
                 </div>
             </div>
             
-        </div>
+        </div> */}
     </div>
   )
 }

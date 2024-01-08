@@ -45,10 +45,8 @@ function DoctorProfile() {
     
   <div className="fw-semibold font">
     <div className="container">
-      <div className="row">
-        <div className="card border-0">
-          <div className="card-body">
-            <div className="card">
+
+            <div className="card mt-3">
               <header className="card-header navbar bg-secondary py-1" >
                 <div  className="text-light">Doctor Profile"</div>
               </header>
@@ -183,9 +181,7 @@ function DoctorProfile() {
     </div>
   </div>
   </div>
-  </div>
-  </div>
-    </div>
+
   
 
     

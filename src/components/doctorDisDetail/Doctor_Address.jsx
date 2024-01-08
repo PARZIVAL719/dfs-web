@@ -4,7 +4,7 @@ function Doctor_Address() {
   return (
 
     <div>
-      <header className="card-header rounded-top-0  bg-secondary py-1 ">
+      <header className="card-header navbar bg-secondary py-2">
         <div className="text-light">Adress</div>
       </header>
       <div className='card-body'> 
