@@ -2,18 +2,8 @@ import React from 'react'
 import { Link } from "react-router-dom";
 function Doctor_Detail() {
   return (
-      <div>
-        <header className="card-header bg-secondary py-2 d-flex justify-content-between align-items-center">
-          <div className="text-light">Doctor Detail</div>
-          <div>
-            <button type="button" className="btn btn-light btn-sm border border-secondary">Save</button>
+      <>
 
-            <button type="button" className="btn btn-light btn-sm border border-secondary">Reset</button>
-            <Link to="/">
-            <button type="button" className="btn btn-light btn-sm border border-secondary">Close</button>
-            </Link>
-          </div>
-        </header>
         <div className='card-body'>
           <div className='row mt-3 align-items-center'>
             <div className='col-sm-3 text-sm-end'>
@@ -22,10 +12,10 @@ function Doctor_Detail() {
               </label>
             </div>
             <div className='col-sm-3 '>
-              <input type="text" name="doctorProfileCode" id="textdoctorProfileCode" className='form-control'/>
+              <input type="text" name="doctorProfileCode" id="textdoctorProfileCode" className='form-control' />
             </div>
             <div className='col-sm-6 '>
-              <input type="text" name="doctorProfileDesc" id="textdoctorProfileDesc" className='form-control'/>
+              <input type="text" name="doctorProfileDesc" id="textdoctorProfileDesc" className='form-control'readOnly/>
             </div>
           </div>
           <div className='row mt-3 align-items-center'>
@@ -100,7 +90,7 @@ function Doctor_Detail() {
             </div>
           </div>
         </div>
-      </div>
+      </>
   )
 }
 

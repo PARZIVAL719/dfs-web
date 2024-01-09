@@ -3,33 +3,50 @@ import { FaSearch } from "react-icons/fa";
 import  { useState, useEffect } from "react";
 import axios from "axios";
 
-const initialState = {
-  code:"",
-  active: "",
-  emplyId:"",
-  nation:"",
-  nameEng:"",
-  nameTh:"",
-  phone:"",
-  licenseId:"",
-  dob: ""
+import doctorProfileJson from "../samlpe_data/getDoctorProfileDetail.json"
+
+
+
+const initialState1 = {
+    "TELEPHONE": "",
+    "EMPLOYEE_ID": "",
+    "LICENSE_ID": "",
+    "NAME_ENG": "",
+    "ACTIVE": "1",
+    "UPDATE_DATE": "",
+    "USER_ID": "",
+    "UPDATE_TIME": "",
+    "CODE": "",
+    "NATION_ID": "",
+    "NAME_THAI": "",
+    "BIRTH_DATE": "",
+    "HOSPITAL_CODE": ""
 }
+
+const initialState = doctorProfileJson
 
 function DoctorProfile() {
 
+  
   const [profileCode, setProfileCode] = useState(initialState)
   const [listDoc ,setListDoc] = useState([])
-
+  
   const reset = () => {
     setProfileCode(initialState)
   }
 
-  useEffect(()=>{
+  const save = ()=>{
+    console.log(profileCode);
+  }
 
-    const fetch = async()=>{
-      let formData = new FormData()
-      formData.append("hospitalCode","DEMO")
-      formData.append("doctorProfileCode",profileCode.code)
+
+  
+  useEffect(()=>{
+    // console.log(doctorProfileJson)
+    const fetch = ()=>{
+      // let formData = new FormData()
+      // formData.append("hospitalCode","DEMO")
+      // formData.append("doctorProfileCode",profileCode.code)
       // await axios.post(`http://103.82.248.222:8989/autoComplete/lookup_mst_doctor_profile`,formData)
       // .then(res=>{
       //   setListDoc(res.data)
@@ -38,7 +55,7 @@ function DoctorProfile() {
     }
     fetch()
     
-  },[profileCode.code])
+  },[profileCode.CODE])
 
   return (
     
@@ -47,7 +64,7 @@ function DoctorProfile() {
     <div className="container">
 
             <div className="card mt-3">
-              <header className="card-header navbar bg-secondary py-1" >
+              <header className="card-header navbar bg-secondary py-2" >
                 <div  className="text-light">Doctor Profile"</div>
               </header>
                 <div className="px-2">
@@ -59,8 +76,8 @@ function DoctorProfile() {
                   </div>
                   <div className="col-sm-3 ">
                     <div className="input-group">
-                      <input type="text" className="form-control ui-autocomplete-input input-sm border-end-0" id="doctorProfile"  placeholder="Search" 
-                      value={profileCode.code} onChange={(e) => setProfileCode({...profileCode,code:e.target.value})}/> 
+                      <input type="text" className="form-control input-sm border-end-0" id="doctorProfile"  placeholder="Search" 
+                      value={profileCode.CODE} onChange={(e) => setProfileCode({...profileCode,CODE:e.target.value})}/> 
                         <span className="input-group-text border-start-0">
                           <FaSearch />
                         </span>
@@ -81,15 +98,15 @@ function DoctorProfile() {
         </div>
         <div className="col-sm-3 align-items-center d-flex fw-light ">   
             <input type="radio" className="form-check-input me-2" id="radioActive1" name="radioActive" value="1"
-              checked={profileCode.active == "1"}
-              onChange={(e) => setProfileCode({...profileCode,active:e.target.value})} />
+              checked={profileCode.ACTIVE == "1"}
+              onChange={(e) => setProfileCode({...profileCode,ACTIVE:e.target.value})} />
             <label htmlFor="radioActive1" className="form-check-label me-3">
               Active
             </label>
             <input type="radio" className="form-check-input me-2"  id="radioActive0" name="radioActive"
               value="0"
-              checked={profileCode.active === "0"}
-              onChange={(e) => setProfileCode({...profileCode,active:e.target.value})} /> 
+              checked={profileCode.ACTIVE === "0"}
+              onChange={(e) => setProfileCode({...profileCode,ACTIVE:e.target.value})} /> 
             <label htmlFor="radioActive0"className="form-check-label me-2" >
               Inactive
             </label>
@@ -105,7 +122,7 @@ function DoctorProfile() {
         </div>
         <div className="col-sm-3">
           <input type="text" className="form-control" id="employeeID"
-          value={profileCode.emplyId} onChange={(e) => setProfileCode({...profileCode,emplyId:e.target.value})} />
+          value={profileCode.EMPLOYEE_ID} onChange={(e) => setProfileCode({...profileCode,EMPLOYEE_ID:e.target.value})} />
         </div>
         <div className="col-sm-3 text-sm-end">
           <label className="col-form-label">
@@ -114,7 +131,7 @@ function DoctorProfile() {
         </div>
         <div className="col-sm-3 d-flex gx-3  ">
           <input type="text" className="form-control" id="nationId" 
-          value={profileCode.nation} onChange={(e) => setProfileCode({...profileCode,nation:e.target.value})}/>
+          value={profileCode.NATION_ID} onChange={(e) => setProfileCode({...profileCode,NATION_ID:e.target.value})}/>
 
           </div>
       </div>
@@ -125,7 +142,7 @@ function DoctorProfile() {
         </label>
         <div className="col-sm-6">
           <input type="text" className="form-control" id="nameEng" 
-          value={profileCode.nameEng} onChange={(e) => setProfileCode({...profileCode,nameEng:e.target.value})}/>
+          value={profileCode.NAME_ENG} onChange={(e) => setProfileCode({...profileCode,NAME_ENG:e.target.value})}/>
         </div>
       </div>
 
@@ -135,7 +152,7 @@ function DoctorProfile() {
         </label>
         <div className="col-sm-6">
           <input type="text" className="form-control" id="nameTH"
-          value={profileCode.nameTh} onChange={(e) => setProfileCode({...profileCode,nameTh:e.target.value})} />
+          value={profileCode.NAME_THAI} onChange={(e) => setProfileCode({...profileCode,NAME_THAI:e.target.value})} />
         </div>
       </div>
 
@@ -145,7 +162,7 @@ function DoctorProfile() {
         </label>
         <div className="col-sm-6">
           <input type="text" required className="form-control" id="nameTH"
-          value={profileCode.phone} onChange={(e) => setProfileCode({...profileCode,phone:e.target.value})} />
+          value={profileCode.TELEPHONE} onChange={(e) => setProfileCode({...profileCode,TELEPHONE:e.target.value})} />
         </div>
       </div>
 
@@ -155,7 +172,7 @@ function DoctorProfile() {
         </label>
         <div className="col-sm-3">
           <input type="text" className="form-control" id="nameTH"
-          value={profileCode.licenseId} onChange={(e) => setProfileCode({...profileCode,licenseId:e.target.value})} />
+          value={profileCode.LICENSE_ID} onChange={(e) => setProfileCode({...profileCode,LICENSE_ID:e.target.value})} />
         </div>
         <div className="col-sm-3 text-sm-end">
           <label className="col-form-label">
@@ -164,7 +181,7 @@ function DoctorProfile() {
         </div>
         <div className="col-sm-3">
             <input type="date" id="date" className="form-control"  placeholder="DD/MM/YYYY"
-            value={profileCode.dob} onChange={(e) => setProfileCode({...profileCode,dob:e.target.value})} />
+            value={profileCode.BIRTH_DATE} onChange={(e) => setProfileCode({...profileCode,BIRTH_DATE:e.target.value})} />
         </div>
       </div>
       <div className="d-flex justify-content-between">
@@ -173,7 +190,7 @@ function DoctorProfile() {
         </div>
         <div className="d-flex gap-3  ">
           <button type="button" className="btn btn-light btn-sm mb-3 ">Display</button>
-          <button type="button" className="btn btn-light btn-sm mb-3 ">Save</button>
+          <button type="button" className="btn btn-light btn-sm mb-3 " onClick={save}>Save</button>
         </div>
       </div>
     </div>

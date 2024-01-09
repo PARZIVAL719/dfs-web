@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 function Doctor_Note_Create() {
 
     const [subject, setSubject] = useState('')
+    const [selectedValue, setSelectedValue] = useState('');
+
+    const handleChange = (e) =>{
+        setSelectedValue(e.target.value)
+    }
 
     return (
             <div className=" fw-semibold font">
@@ -32,17 +37,20 @@ function Doctor_Note_Create() {
                                     </label>
                                 </div>
                                 <div className="col-sm-3">
-                                    <select className="form-select " >
+                                    <select className="form-select " onChange={handleChange} >
                                         <option defaultValue>--- Select ---</option>
                                         <option value="1">สัญญา-ต่อสัญญา</option>
                                         <option value="2">สัญญา-ปรับ/เปลี่ยนสัญญา</option>
                                         <option value="3">สัญญา-ยกเลิกสัญญา</option>
                                         <option value="4">เอกสาร</option>
-                                        <option value="5">สัญญา-ยกเลิกสัญญา</option>                          
+                                        <option value="5">อื่นๆ</option>                          
                                     </select>
                                 </div>
                                 <div className="col-sm-3">
+                                    {selectedValue ==='5' && (
                                     <input type="text" className="form-control" id="fileName"/>
+                                    )
+                                }
                                 </div>
                             </div>
                             <div className='row mb-3'>
@@ -52,8 +60,9 @@ function Doctor_Note_Create() {
                                     </label>
                                 </div>
 
-                                <div className="col-sm-3">
-                                    <input type="text" className="form-control" id="fileName"/>
+                                <div className="col-sm-6">
+                                    <textarea className="form-control input-sm" id="w3review" name="w3review" rows="5">
+                                    </textarea>
                                 </div>
                             </div>
                             <div className='row mb-3'>

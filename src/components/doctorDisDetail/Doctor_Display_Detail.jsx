@@ -24,14 +24,30 @@ const DoctorDetail = () => {
       <div className="card border-0 ">
         <div className="card-body">
           <div className="card">
-            <Doctor_Detail />
-            <Doctor_Address />
-            <Doctor_Info />
-            <Doctor_Department />
-            <Doctor_Guarantee />
-            <Doctor_Payment />
-            <Doctor_Note />
-            <Doctor_File />
+            <form action="">
+              <div className="card border-0">
+                <header className="card-header bg-secondary py-2 d-flex justify-content-between align-items-center">
+                  <div className="text-light">Doctor Detail</div>
+                  <div>
+                    <button type="button" className="btn btn-light btn-sm border border-secondary">Save</button>
+
+                    <button type="reset" className="btn btn-light btn-sm border border-secondary">Reset</button>
+                    <Link to="/">
+                    <button type="button" className="btn btn-light btn-sm border border-secondary">Close</button>
+                    </Link>
+                  </div>
+                </header>
+                <Doctor_Detail />
+              </div>
+              <Doctor_Address />
+              <Doctor_Info />
+              <Doctor_Department />
+              <Doctor_Guarantee />
+              <Doctor_Payment />
+              <Doctor_Note />
+              <Doctor_File />
+            </form>
+
             <div>
               <header className="card-header navbar bg-secondary py-2 d-flex justify-content-between align-items-center">
                 <div>
