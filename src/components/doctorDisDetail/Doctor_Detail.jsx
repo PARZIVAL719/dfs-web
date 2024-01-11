@@ -1,9 +1,13 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import getDisplay from "../samlpe_data/get_doctor_display_detail.json"
 function Doctor_Detail() {
+
+
+  const data = getDisplay 
+  console.log(data);
   return (
       <>
-
         <div className='card-body'>
           <div className='row mt-3 align-items-center'>
             <div className='col-sm-3 text-sm-end'>
@@ -24,13 +28,15 @@ function Doctor_Detail() {
                 Doctor Code*
               </label>
             </div>
-            <div className='col-sm-3 '>
+            <div className='col-sm-9  col-md-3'>
               <input type="text" name="doctorCode" id="textdoctorCode" className='form-control'/>
             </div>
             <div className='col-sm-3 text-sm-end '>
+            <label htmlFor="doctorCode" className='col-form-label'>
                 Resign
+              </label>
             </div>
-            <div className='col-sm-3 align-items-center d-flex fw-light'>
+            <div className='col-sm-3 align-items-end   d-flex fw-light'>
               <input type="radio" className="form-check-input me-2" id="radioResign1" name="radioActive"/>
               <label htmlFor="radioResign1" className="form-check-label me-3">
                 Yes
@@ -63,9 +69,11 @@ function Doctor_Detail() {
           </div>
           <div className='row my-3 align-items-center'>
             <div className='col-sm-3 text-sm-end '>
+              <label htmlFor="doctorCode" className='col-form-label'>
                 Person*
+              </label>
             </div>
-            <div className='col-sm-3 align-items-center d-flex fw-light'>
+            <div className='col-sm-9 col-md-3 align-items-center d-flex fw-light'>
               <input type="radio" className="form-check-input me-2" id="radioPerson0" name="radioPerson"/>
               <label htmlFor="radioPerson0" className="form-check-label me-3 text-nowrap">
                 Individual 
@@ -75,10 +83,12 @@ function Doctor_Detail() {
                 Juristic Person
               </label>
             </div>
-            <div className='col-sm-3 text-sm-end '>
+            <div className='col-sm-3 text-sm-end  '>
+              <label htmlFor="doctorCode" className='col-form-label'>
                 Active
+              </label>
             </div>
-            <div className='col-sm-3 align-items-center d-flex fw-light'>
+            <div className='col-sm-9 col-md-3 align-items-center d-flex fw-light'>
               <input type="radio" className="form-check-input me-2" id="radioActive0" name="radioActive"/>
               <label htmlFor="radioActive0" className="form-check-label me-3">
                 Active

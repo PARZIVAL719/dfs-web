@@ -1,9 +1,13 @@
 import DoctorDisplay from "./DoctorDisplay";
 import { FaSearch } from "react-icons/fa";
-import  { useState, useEffect } from "react";
+import  { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 import doctorProfileJson from "../samlpe_data/getDoctorProfileDetail.json"
+
+import doctor_detail_json from "../samlpe_data/get_doctor_detail.json"
+
+import listDocTxt from "../samlpe_data/lookup_mst_doctor_profile.json"
 
 
 
@@ -27,177 +31,210 @@ const initialState = doctorProfileJson
 
 function DoctorProfile() {
 
-  
-  const [profileCode, setProfileCode] = useState(initialState)
+  const searchInput = useRef("")
+  const divListDoc = useRef("")
+
+  const [profileCode, setProfileCode] = useState(initialState1)
+
   const [listDoc ,setListDoc] = useState([])
+
+  const [doctorDetail, setDoctorDetail] = useState({data:[]})
   
   const reset = () => {
-    setProfileCode(initialState)
+    searchInput.current.disabled = false
+    setProfileCode(initialState1)
+    setDoctorDetail({data:[]})
   }
 
   const save = ()=>{
     console.log(profileCode);
   }
 
+  const handleChange = (e)=>{
+    setProfileCode({...profileCode,CODE:e.target.value}) 
+  }
 
+  const handleBlur= (e)=>{
+    searchInput.current.disabled = e.target.value.trim().length > 0 ? "readOnly" : false
+    hideDoctorList()
+  }
+
+  const clearDoctorList=()=>setListDoc([])
   
-  useEffect(()=>{
-    // console.log(doctorProfileJson)
-    const fetch = ()=>{
-      // let formData = new FormData()
-      // formData.append("hospitalCode","DEMO")
-      // formData.append("doctorProfileCode",profileCode.code)
-      // await axios.post(`http://103.82.248.222:8989/autoComplete/lookup_mst_doctor_profile`,formData)
-      // .then(res=>{
-      //   setListDoc(res.data)
-      // })
-      // console.log(res.data);
-    }
-    fetch()
+  const getDoctorDeta = (id) => {
+    console.log(id);
+    hideDoctorList()
+    if(id==="13877"){
+      setProfileCode(initialState)
+      setDoctorDetail(doctor_detail_json)
+  }
     
+  }
+
+  const hideDoctorList = ()=>{
+    divListDoc.current.style.display = 'none'
+  }
+
+
+      
+  const fetch = ()=>{
+    // let formData = new FormData()
+    // formData.append("hospitalCode","DEMO")
+    // formData.append("doctorProfileCode",profileCode.code)
+    // await axios.post(`http://103.82.248.222:8989/autoComplete/lookup_mst_doctor_profile`,formData)
+    // .then(res=>{
+    //   setListDoc(res.data)
+    // })
+    // console.log(res.data);
+    divListDoc.current.style.display = "block"
+    setListDoc(listDocTxt)
+  }
+
+  useEffect(()=>{
+    profileCode.CODE==="" ?clearDoctorList():fetch()
   },[profileCode.CODE])
 
+
+
   return (
-    
-    
   <div className="fw-semibold font">
     <div className="container">
+      <form onReset={reset}>
+        <div className="card mt-3">
+          <header className="card-header navbar bg-secondary py-2" >
+            <div  className="text-light">Doctor Profile"</div>
+          </header>
+          <div className="px-2">
+            <div className="row mt-3" >
+              <div className="col-sm-3 text-sm-end">
+                <label htmlFor="doctorProfile"className="col-form-label control-label ">
+                  Doctor Profile Code*
+                </label>
+              </div>
+              <div className="col-sm-9 col-md-3 " id="search" >
+                <div className="input-group" id="search-input">
+                  <input type="text" className="form-control input-sm border-end-0" id="doctorProfile-search"  placeholder="Search" 
+                    ref={searchInput} value={profileCode.CODE} onChange={handleChange} onBlur={handleBlur}/> 
+                    <span className="input-group-text border-start-0" id="search-icon">
+                      <FaSearch />
+                    </span>
 
-            <div className="card mt-3">
-              <header className="card-header navbar bg-secondary py-2" >
-                <div  className="text-light">Doctor Profile"</div>
-              </header>
-                <div className="px-2">
-                 <div className="row mt-3" >
-                  <div className="col-sm-3 text-sm-end">
-                    <label htmlFor="doctorProfile"className="col-form-label control-label ">
-                      Doctor Profile Code*
-                    </label>
-                  </div>
-                  <div className="col-sm-3 ">
-                    <div className="input-group">
-                      <input type="text" className="form-control input-sm border-end-0" id="doctorProfile"  placeholder="Search" 
-                      value={profileCode.CODE} onChange={(e) => setProfileCode({...profileCode,CODE:e.target.value})}/> 
-                        <span className="input-group-text border-start-0">
-                          <FaSearch />
-                        </span>
+                </div>
+                <div ref={divListDoc} className="col-sm-9 col-md-3 col-12 list-group position-absolute overflow-y-auto h-25 z-1 "  id="search-result" >
+                  {listDoc?.map((item,index)=>(
+                    <a key={index} onMouseDown={e=>getDoctorDeta(item.id)} href="#" className="list-group-item list-group-item-action">{item.value}</a>
+                    ))}
+                </div>
+              </div>
+              <div className="col-sm-3 text-sm-end ">
+                <label className="col-form-label">
+                  Active
+                </label>
+              </div>
+              <div className="col-sm-3 align-items-center d-flex fw-light ">   
+                  <input type="radio" className="form-check-input me-2" id="radioActive1" name="radioActive" value="1"
+                    checked={profileCode.ACTIVE == "1"}
+                    onChange={(e) => setProfileCode({...profileCode,ACTIVE:e.target.value})} />
+                  <label htmlFor="radioActive1" className="form-check-label me-3">
+                    Active
+                  </label>
+                  <input type="radio" className="form-check-input me-2"  id="radioActive0" name="radioActive"
+                    value="0"
+                    checked={profileCode.ACTIVE === "0"}
+                    onChange={(e) => setProfileCode({...profileCode,ACTIVE:e.target.value})} /> 
+                  <label htmlFor="radioActive0"className="form-check-label me-2" >
+                    Inactive
+                  </label>
+              </div>
+            </div>
+            <div className="row mt-3 mb-3 ">
+              <div className="col-sm-3 text-sm-end">
+                <label
+                  htmlFor="employeeID"
+                  className=" col-form-label control-label ">
+                  Employee ID
+                </label>
+              </div>
+              <div className="col-sm-3">
+                <input type="text" className="form-control" id="employeeID"
+                value={profileCode.EMPLOYEE_ID} onChange={(e) => setProfileCode({...profileCode,EMPLOYEE_ID:e.target.value})} />
+              </div>
+              <div className="col-sm-3 text-sm-end">
+                <label className="col-form-label">
+                  Nation ID
+                </label>
+              </div>
+              <div className="col-sm-3 d-flex gx-3  ">
+                <input type="text" className="form-control" id="nationId" 
+                value={profileCode.NATION_ID} onChange={(e) => setProfileCode({...profileCode,NATION_ID:e.target.value})}/>
+              </div>
+            </div>
+            <div className="row mb-3 ">
+              <label htmlFor="nameEng" className="col-sm-3 col-form-label control-label text-sm-end">
+                Name (ENG)*
+              </label>
+              <div className="col-sm-6">
+                <input type="text" className="form-control" id="nameEng" 
+                value={profileCode.NAME_ENG} onChange={(e) => setProfileCode({...profileCode,NAME_ENG:e.target.value})}/>
+              </div>
+            </div>
 
-                    </div>
-                    <ul className="list-group">
-                      {listDoc?.map(item=>(
-                        <li className="list-group-item">{item.value}</li>
-                      ))}
-                    </ul>
-                  </div>
-        
+            <div className="mb-3 row">
+              <label htmlFor="nameTH" className="col-sm-3 col-form-label control-label text-sm-end">
+                Name (TH)*
+              </label>
+              <div className="col-sm-6">
+                <input type="text" className="form-control" id="nameTH"
+                value={profileCode.NAME_THAI} onChange={(e) => setProfileCode({...profileCode,NAME_THAI:e.target.value})} />
+              </div>
+            </div>
 
-                <div className="col-sm-3 text-sm-end ">
-          <label className="col-form-label">
-            Active
-          </label>
-        </div>
-        <div className="col-sm-3 align-items-center d-flex fw-light ">   
-            <input type="radio" className="form-check-input me-2" id="radioActive1" name="radioActive" value="1"
-              checked={profileCode.ACTIVE == "1"}
-              onChange={(e) => setProfileCode({...profileCode,ACTIVE:e.target.value})} />
-            <label htmlFor="radioActive1" className="form-check-label me-3">
-              Active
-            </label>
-            <input type="radio" className="form-check-input me-2"  id="radioActive0" name="radioActive"
-              value="0"
-              checked={profileCode.ACTIVE === "0"}
-              onChange={(e) => setProfileCode({...profileCode,ACTIVE:e.target.value})} /> 
-            <label htmlFor="radioActive0"className="form-check-label me-2" >
-              Inactive
-            </label>
-        </div>
-      </div>
-      <div className="row mt-3 mb-3 ">
-        <div className="col-sm-3 text-sm-end">
-        <label
-          htmlFor="employeeID"
-          className=" col-form-label control-label ">
-          Employee ID
-        </label>
-        </div>
-        <div className="col-sm-3">
-          <input type="text" className="form-control" id="employeeID"
-          value={profileCode.EMPLOYEE_ID} onChange={(e) => setProfileCode({...profileCode,EMPLOYEE_ID:e.target.value})} />
-        </div>
-        <div className="col-sm-3 text-sm-end">
-          <label className="col-form-label">
-            Nation ID
-          </label>
-        </div>
-        <div className="col-sm-3 d-flex gx-3  ">
-          <input type="text" className="form-control" id="nationId" 
-          value={profileCode.NATION_ID} onChange={(e) => setProfileCode({...profileCode,NATION_ID:e.target.value})}/>
+            <div className="mb-3 row">
+              <label htmlFor="nameTH" className="col-sm-3 col-form-label control-label text-sm-end">
+                Phone No.*
+              </label>
+              <div className="col-sm-6">
+                <input type="text" required className="form-control" id="nameTH"
+                value={profileCode.TELEPHONE} onChange={(e) => setProfileCode({...profileCode,TELEPHONE:e.target.value})} />
+              </div>
+            </div>
 
+            <div className="row mt-3 mb-3 ">
+              <label htmlFor="nameTH" className="col-sm-3 col-form-label control-label text-sm-end">
+                License ID
+              </label>
+              <div className="col-sm-3">
+                <input type="text" className="form-control" id="nameTH"
+                value={profileCode.LICENSE_ID} onChange={(e) => setProfileCode({...profileCode,LICENSE_ID:e.target.value})} />
+              </div>
+              <div className="col-sm-3 text-sm-end">
+                <label className="col-form-label">
+                  Birth Date
+                </label>
+              </div>
+              <div className="col-sm-3">
+                <input type="date" id="date" className="form-control"  placeholder="DD/MM/YYYY"
+                value={profileCode.BIRTH_DATE} onChange={(e) => setProfileCode({...profileCode,BIRTH_DATE:e.target.value})} />
+              </div>
+            </div>
+
+            <div className="d-flex justify-content-between">
+              <div >
+                <input type="reset" className="btn btn-light mb-3 " value="Reset" />
+              </div>
+              <div className="d-flex gap-3  ">
+                <button type="button" className="btn btn-light btn-sm mb-3 ">Display</button>
+                <button type="button" className="btn btn-light btn-sm mb-3 " onClick={save}>Save</button>
+              </div>
+            </div>
           </div>
-      </div>
 
-      <div className="mb-3 row">
-        <label htmlFor="nameEng" className="col-sm-3 col-form-label control-label text-sm-end">
-          Name (ENG)*
-        </label>
-        <div className="col-sm-6">
-          <input type="text" className="form-control" id="nameEng" 
-          value={profileCode.NAME_ENG} onChange={(e) => setProfileCode({...profileCode,NAME_ENG:e.target.value})}/>
-        </div>
+        <DoctorDisplay info={doctorDetail} />
+        
       </div>
-
-      <div className="mb-3 row">
-        <label htmlFor="nameTH" className="col-sm-3 col-form-label control-label text-sm-end">
-          Name (TH)*
-        </label>
-        <div className="col-sm-6">
-          <input type="text" className="form-control" id="nameTH"
-          value={profileCode.NAME_THAI} onChange={(e) => setProfileCode({...profileCode,NAME_THAI:e.target.value})} />
-        </div>
-      </div>
-
-      <div className="mb-3 row">
-        <label htmlFor="nameTH" className="col-sm-3 col-form-label control-label text-sm-end">
-          Phone No.*
-        </label>
-        <div className="col-sm-6">
-          <input type="text" required className="form-control" id="nameTH"
-          value={profileCode.TELEPHONE} onChange={(e) => setProfileCode({...profileCode,TELEPHONE:e.target.value})} />
-        </div>
-      </div>
-
-      <div className="row mt-3 mb-3 ">
-        <label htmlFor="nameTH" className="col-sm-3 col-form-label control-label text-sm-end">
-          License ID
-        </label>
-        <div className="col-sm-3">
-          <input type="text" className="form-control" id="nameTH"
-          value={profileCode.LICENSE_ID} onChange={(e) => setProfileCode({...profileCode,LICENSE_ID:e.target.value})} />
-        </div>
-        <div className="col-sm-3 text-sm-end">
-          <label className="col-form-label">
-            Birth Date
-          </label>
-        </div>
-        <div className="col-sm-3">
-            <input type="date" id="date" className="form-control"  placeholder="DD/MM/YYYY"
-            value={profileCode.BIRTH_DATE} onChange={(e) => setProfileCode({...profileCode,BIRTH_DATE:e.target.value})} />
-        </div>
-      </div>
-      <div className="d-flex justify-content-between">
-        <div >
-          <button type="button" className="btn btn-light mb-3 " onClick={reset}>Reset</button>
-        </div>
-        <div className="d-flex gap-3  ">
-          <button type="button" className="btn btn-light btn-sm mb-3 ">Display</button>
-          <button type="button" className="btn btn-light btn-sm mb-3 " onClick={save}>Save</button>
-        </div>
-      </div>
-    </div>
-    <DoctorDisplay data={null} />
-    </div>
+    </form>
   </div>
-  </div>
+</div>
 
   
 

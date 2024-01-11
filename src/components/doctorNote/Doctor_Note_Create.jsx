@@ -46,7 +46,7 @@ function Doctor_Note_Create() {
                                         <option value="5">อื่นๆ</option>                          
                                     </select>
                                 </div>
-                                <div className="col-sm-3">
+                                <div className="col-sm-6">
                                     {selectedValue ==='5' && (
                                     <input type="text" className="form-control" id="fileName"/>
                                     )

@@ -20,7 +20,6 @@ function App() {
      <Route path='/noteCreate' element={ <Doctor_Note_Create/>}/>
      <Route path='/guaranteeCreate' element={ <Doctor_Guarantee_Create/>}/>
      <Route path='/guaranteeTimetable' element={ <Doctor_Guarantee_Timetable/>}/>
-      
    </Routes>
   )
 }

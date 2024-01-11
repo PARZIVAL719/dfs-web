@@ -42,10 +42,10 @@ function Doctor_Payment() {
           <div className='col-sm-3 text-sm-end '>
           Advance Payment*
           </div>
-          <div className='col-sm-3 align-items-center d-flex fw-light'>
+          <div className='col-sm-9 col-md-3 align-items-center d-flex fw-light'>
             <input type="radio" className="form-check-input me-2" id="radioAdPayment0" name="radioAdPayment"/>
             <label htmlFor="radioAdPayment0" className="form-check-label me-3 text-nowrap">
-        AdPayment
+              AdPayment
             </label>
             <input type="radio" className="form-check-input me-2" id="radioAdPayment1" name="radioAdPayment"/>
             <label htmlFor="radioAdPayment1" className="form-check-label me-3 text-nowrap">
@@ -55,7 +55,7 @@ function Doctor_Payment() {
           <div className='col-sm-3 text-sm-end '>
           Time to Payment*
           </div>
-          <div className='col-sm-3 align-items-center d-flex fw-light'>
+          <div className='col-sm-9 col-md-3 align-items-center d-flex fw-light'>
             <input type="radio" className="form-check-input me-2" id="radioTimeToPay0" name="radioTimeToPay"/>
             <label htmlFor="radioTimeToPay0" className="form-check-label me-3">
               2 Time

@@ -5,28 +5,31 @@ import DataTable from "datatables.net-bs5";
 
 function Doctor_Department() {
   const tableRef = useRef();
-  let table;
   
   useEffect(() => {
-    table = new DataTable(tableRef.current, {
+    const table1 = new DataTable(tableRef.current, {
       ordering: false,
       paging: false,
       searching: false,
     });
 
     return () => {
-      table.destroy();
+      table1.destroy();
     };
   }, []);
 
   const deleteRowHandle = (e) => {
     let parent = e.target.closest("tr");
+    let table = new DataTable(tableRef.current)
     table.row(parent)
           .remove()
           .draw()
   };
 
   const addNewRow = () => {
+
+    let table = new DataTable(tableRef.current)
+    
     const inputFa = `
                 <div class="form-group row ">
                   <div class="col-sm-4 ">
@@ -46,9 +49,7 @@ function Doctor_Department() {
     const radioDefault = `<div class="text-center"><input type="radio"/></div>`;
     const deleteBtn = `<div class="text-center" id="deleteBtnId"><button class="btn btn-light border border-secondary" >${renderToString(<FaTrashAlt />)} </button></div>`;
 
-    table.row
-      .add([inputFa, radioDefault, deleteBtn])
-      .draw(false);
+    table.row.add([inputFa, radioDefault, deleteBtn]).draw(false);
 
     document
       .querySelectorAll("#deleteBtnId").forEach((item)=>{

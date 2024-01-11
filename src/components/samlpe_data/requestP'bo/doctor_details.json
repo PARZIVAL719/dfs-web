@@ -1,0 +1,89 @@
+
+{
+  "DOCTOR_DETAILS_DESC":{
+    "DOCTOR_CODE":"",
+    "DOCTOR_PROFILE_CODE":"",
+    "HOSPITAL_CODE": "",
+    "DESCRIPTION":"",
+    "RESIGN":"",
+    "NAME_ENG": "",
+    "NAME_THAI": "",
+    "PERSON":"",
+    "ACTIVE": "",
+    "ADDRESS_NUMBER":"",
+    "DISTRICT" : "" ,
+    "PROVINCE" : "" ,
+    "POSTAL_CODE" : "",
+    "EMAIL" : "",
+    "LICENSE_ID": "",
+    "SALARY":"",
+    "LICENSE_ISSUE_DATE":"",
+    "START_WORING_DATE":"",
+    "DOCTOR_TYPE":""  ,
+    "DOCTOR_GROUP":"" ,
+    "DOCTOR_CATEGORY":"" ,
+    "HOSPITAL_UNIT":"" ,
+    "SPECIALTY":"",
+    "SPECIALTY_DESC":"",
+    "PAYMENT_MODE":""  ,
+    "PAYMENT_REVENUE_CODE":"",
+    "ADVANCE_PAYMENT":"",
+    "TIME_TO_PAYMENT":"",
+    "TAX_ID":"",
+    "PAT_TAX_BY":""  ,
+    "INCLUDE_40_2_REVENUE_TO_CODE":"",
+    "TAX_40_2_CALCULATION":""  ,
+    "INCLUDE_40_6_REVENUE_TO_CODE":"",
+    "TAX_40_6_CALCULATION":""
+  },
+  "DEPARTMENT": [
+    {
+      "DEPARTMENT_CODE":"",
+      "DEPARTMENT_DESC":"",
+      "IS_ACTIVE":""
+    }
+  ],
+  "GUARANTEE":[
+    {
+      "DOCTOR_CODE":"",
+      "IS_LUMP_SUM":"",
+      "GUARANTEE_TYPE_CODE":"",
+      "GUARANTEE_METHOD":"",
+      "CONTRACT_START_DATE":"",
+      "CONTRACT_EXPIRE_DATE":"",
+      "GUARANTEE_AMOUNT_HOUR":"",
+      "EXTRA_HOUR":"",
+      "IN_GUARANTEE_ALLOCATE":"",
+      "OVER_GUARANTEE_ALLOCATE":"",
+      "INCLUDE_REVENUE_TO_DR":"",
+      "DEPARTMENT":"",
+      "REVENUE_FOR_GUARANTEE":"",
+      "GUARANTEE_BY_DAY":"",
+      "ABSORD_EXTRA_TAX_TYPE":"",
+      "GUARATEE_CATEGORY":"",
+      "EARLY_TIME":"",
+      "LATE_TIME":"",
+      "ACTIVE":""
+    }
+  ],
+  "NOTE": [
+      {
+        "ACTIVE": "1",
+        "UPDATE_DATE": "",
+        "USER_ID": "",
+        "UPDATE_TIME": "",
+        "NOTE_SUBJECT": "",
+        "HBN_CODE": ""
+      }
+  ],
+  "FILE":[
+    {
+      "FILE_SOURCE": "",
+      "UPDATE_DATE": "",
+      "USER_ID": "",
+      "UPDATE_TIME": "",
+      "FILE_NAME": ""
+    }
+  ]
+} 
+

@@ -1,8 +1,8 @@
 
-import React from "react";
+import React,{useEffect, useState} from "react";
 import BackMenu from "../router/BackMenu";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
 
 // Components
@@ -17,6 +17,21 @@ import Doctor_File from "./Doctor_File";
 import NewpageButton from "../router/Newpage";
 
 const DoctorDetail = () => {
+
+  let location = useLocation()
+
+  const [code, setCode] = useState()
+
+  useEffect(()=>{
+    setCode(location.state)
+    console.log(location.state);
+   
+    
+   
+  },[location])
+ 
+  console.log(code);
+  
   return (
     <div className=" fw-semibold">
   <div className="container">

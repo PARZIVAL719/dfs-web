@@ -1,0 +1,26 @@
+{
+  "DOCTOR_PROFILE_DETAIL":{
+    "TELEPHONE": "",
+    "EMPLOYEE_ID": "",
+    "LICENSE_ID": "",
+    "NAME_ENG": "",
+    "ACTIVE": "",
+    "UPDATE_DATE": "",
+    "USER_ID": "",
+    "UPDATE_TIME": "",
+    "CODE": "",
+    "NATION_ID": "",
+    "NAME_THAI": "",
+    "BIRTH_DATE": "",
+    "HOSPITAL_CODE": ""
+  },
+  "DATATABLE":[
+    {
+      "CODE": "",
+      "NAME_ENG": "",
+      "ACTIVE": "",
+      "NAME_THAI": "",
+      "DOCTOR_CATEGORY_CODE": ""
+    }
+  ]
+} 

@@ -6,6 +6,13 @@
             "ACTIVE": "1",
             "NAME_THAI": "DR.DEMO (13877)",
             "DOCTOR_CATEGORY_CODE": "DR_20"
+        },
+        {
+            "CODE": "13877123",
+            "NAME_ENG": "DR.DEMO (13877)",
+            "ACTIVE": "1",
+            "NAME_THAI": "DR.DEMO (13877)",
+            "DOCTOR_CATEGORY_CODE": "DR_20"
         }
     ]
 }
