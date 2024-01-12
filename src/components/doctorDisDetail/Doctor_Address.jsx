@@ -15,7 +15,7 @@ function Doctor_Address() {
             </label>
           </div>
           <div className='col-sm-6 '>
-              <input type="text" name="doctorProfileCode" id="" className='form-control'/>
+              <input type="text" name="Address_Code" id="" className='form-control'/>
             </div>
         </div>
         <div className='row mt-2  '>
@@ -25,7 +25,7 @@ function Doctor_Address() {
             </label>
           </div>
           <div className='col-sm-6 '>
-              <input type="text" name="doctorProfileCode" id="" className='form-control'/>
+              <input type="text" name="Address_Sub" id="" className='form-control'/>
             </div>
         </div>
         <div className='row mt-2'>
@@ -35,7 +35,7 @@ function Doctor_Address() {
             </label>
           </div>
           <div className='col-sm-6 '>
-              <input type="text" name="doctorProfileCode" id="" className='form-control'/>
+              <input type="text" name="Address_Province" id="" className='form-control'/>
             </div>
             
          
@@ -48,7 +48,7 @@ function Doctor_Address() {
             </label>
           </div>
           <div className='col-sm-3 '>
-              <input type="text" name="doctorProfileCode" id="" className='form-control'/>
+              <input type="text" name="Address_Postal_Code" id="" className='form-control'/>
             </div>
             
          
@@ -62,7 +62,7 @@ function Doctor_Address() {
             </label>
           </div>
           <div className='col-sm-6 '>
-              <input type="text" name="doctorProfileCode" id="" className='form-control'/>
+              <input type="text" name="Address_Email" id="" className='form-control'/>
             </div>
       </div>
       </div>

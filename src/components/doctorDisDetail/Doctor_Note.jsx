@@ -2,17 +2,32 @@ import React,{useRef, useEffect} from 'react'
 import { Link } from "react-router-dom";
 import DataTables from 'datatables.net-bs5'
 
-function Doctor_Note({data}) {
+function Doctor_Note() {
+    var  info = [{"DATE" : "11/10/2024","TIME":"24","SUBJECT":"MATH","USERID":"1","ACTIVE":"1"},
+    {"DATE" : "11/10/2024","TIME":"24","SUBJECT":"MATH","USERID":"1","ACTIVE":"1"}
 
+
+]
     const tableRef = useRef()
 
     useEffect(()=>{
+        console.log(info);
+     
         const dt = new DataTables(tableRef.current,{
             ordering: false,
-            pagingType:"full_numbers"
+            pagingType:"full_numbers",
+            data : info,
+            columns: [
+                { "data": 'DATE', "width": '30%' },
+                { "data": 'TIME', "width": '30%' },
+                { "data": 'SUBJECT', "width": '30%' },
+                { "data": 'USERID',"width": '100%',},
+                { "data": 'ACTIVE',"width": '100%',}
+              ], 
         })
         return()=>{
             dt.destroy()
+            
         }
     },[])
             
@@ -36,7 +51,7 @@ function Doctor_Note({data}) {
             </tr>
         </thead>
         <tbody>
-            {data?.map(()=>(
+            {/* {data?.map(()=>(
                 <tr>
                 <th className='text-center'>Date</th>
                 <th className='text-center'>Time</th>
@@ -44,7 +59,7 @@ function Doctor_Note({data}) {
                 <th className='text-center'>User Id</th>
                 <th className='text-center'>Active</th>
                 </tr>
-            ))}
+            ))} */}
         </tbody>
         </table>
       </div>

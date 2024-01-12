@@ -17,17 +17,17 @@ import Doctor_File from "./Doctor_File";
 import NewpageButton from "../router/Newpage";
 
 const DoctorDetail = () => {
-
   let location = useLocation()
 
+
   const [code, setCode] = useState()
+  const { codes } = location.state;
 
   useEffect(()=>{
     setCode(location.state)
     console.log(location.state);
-   
+    console.log(codes);
     
-   
   },[location])
  
   console.log(code);

@@ -90,6 +90,41 @@ function DoctorProfile() {
     setListDoc(listDocTxt)
   }
 
+
+  // const fetch = async () => {
+  //   let formData = new FormData()
+  //   formData.append("hospitalCode", "DEMO")
+  //   formData.append("doctorProfileCode", profileCode.code)
+  
+  //   const username = 'admin';  
+  //   const password = 'P@ssw0rd!1234';  
+  
+  //   const config = {
+  //     auth: {
+  //       username: username,
+  //       password: password
+  //     }
+  //   };
+  
+  //   try {
+  //     const response = await axios.post(
+  //       'http://103.82.248.222:8883/interface_api/api_doctorProfileMain',
+  //       formData,
+  //       config
+  //     );
+  
+  //     setProfileCode(response.data);
+  //     console.log(profileCode);
+  //     setListDoc(listDocTxt)
+  //     divListDoc.current.style.display = "block";
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+    
+  // };
+
+
   useEffect(()=>{
     profileCode.CODE==="" ?clearDoctorList():fetch()
   },[profileCode.CODE])
