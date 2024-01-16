@@ -1,56 +1,88 @@
-import React,{useRef, useEffect} from 'react'
-import { Link } from "react-router-dom";
-import DataTables from 'datatables.net-bs5'
-
+import { useRef, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import moment from "moment/moment.js";
+import DataTables from "datatables.net-bs5";
+import { doctorContext } from "../globalState/DoctorDetailState.jsx";
 function Doctor_Note() {
-    var  info = [{"DATE" : "11/10/2024","TIME":"24","SUBJECT":"MATH","USERID":"1","ACTIVE":"1"},
-    {"DATE" : "11/10/2024","TIME":"24","SUBJECT":"MATH","USERID":"1","ACTIVE":"1"}
+  //     var  info = [{"DATE" : "11/10/2024","TIME":"24","SUBJECT":"MATH","USERID":"1","ACTIVE":"1"},
+  //     {"DATE" : "11/10/2024","TIME":"24","SUBJECT":"MATH","USERID":"1","ACTIVE":"1"}
 
+  // ]
+  const navigate = useNavigate()
+  const tableRef = useRef();
+  const { note } = useContext(doctorContext);
 
-]
-    const tableRef = useRef()
+  useEffect(() => {
+    // console.log(info);
+    console.log(note);
 
-    useEffect(()=>{
-        console.log(info);
-     
-        const dt = new DataTables(tableRef.current,{
-            ordering: false,
-            pagingType:"full_numbers",
-            data : info,
-            columns: [
-                { "data": 'DATE', "width": '30%' },
-                { "data": 'TIME', "width": '30%' },
-                { "data": 'SUBJECT', "width": '30%' },
-                { "data": 'USERID',"width": '100%',},
-                { "data": 'ACTIVE',"width": '100%',}
-              ], 
-        })
-        return()=>{
-            dt.destroy()
-            
-        }
-    },[])
-            
+    const dt = new DataTables(tableRef.current, {
+      ordering: false,
+      pagingType: "full_numbers",
+      data: note,
+      columns: [
+        // { "render": DataTables.render.moment('Do MMM YYYY'), "width": '30%' },
+        // DataTables.render.
+        {
+          title: "Date",
+          data: "DATE",
+          render: function (data) {
+            return moment(data).format(moment.HTML5_FMT.DATE);
+          },
+        },
+        {
+          title: "Time",
+          data: "TIME",
+          render: function (data) {
+            return moment(data,"hh:mm:ss");
+          },
+        },
+        { data: "NOTE_SUBJECT", width: "30%" },
+        { data: "USERID", width: "10%" },
+        { data: "ACTIVE", width: "10%" },
+      ],
+    });
+
+    dt.off('dblclick').on('dblclick','tr',(e)=>{
+        let row = dt.row(e.currentTarget).data()
+        row && navigate('/noteCreate',{state:{row}})
+        console.log(row);
+    })
+    return () => {
+      dt.destroy();
+    };
+  }, [note]);
+
+  
+
   return (
     <div>
       <header className="card-header navbar bg-secondary py-1 ">
         <div className="text-light">Doctor_Note</div>
         <Link to="/noteCreate">
-            <button type="button" className="btn btn-light btn-sm border border-secondary">New</button>
+          <button
+            type="button"
+            className="btn btn-light btn-sm border border-secondary"
+          >
+            New
+          </button>
         </Link>
       </header>
-      <div className='card-body'>
-        <table className='table table-striped border border-light-subtle table-bordered ' ref={tableRef}>
-        <thead>
+      <div className="card-body">
+        <table
+          className="table table-striped border border-light-subtle table-bordered "
+          ref={tableRef}
+        >
+          <thead>
             <tr>
-                <th className='text-center'>Date</th>
-                <th className='text-center'>Time</th>
-                <th className='text-center'>Subject</th>
-                <th className='text-center'>User Id</th>
-                <th className='text-center'>Active</th>
+              <th className="text-center">Date</th>
+              <th className="text-center">Time</th>
+              <th className="text-center">Subject</th>
+              <th className="text-center">User Id</th>
+              <th className="text-center">Active</th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
             {/* {data?.map(()=>(
                 <tr>
                 <th className='text-center'>Date</th>
@@ -60,7 +92,7 @@ function Doctor_Note() {
                 <th className='text-center'>Active</th>
                 </tr>
             ))} */}
-        </tbody>
+          </tbody>
         </table>
       </div>
       {/* <div className='card-body d-flex flex-column justify-content-center' id="content">
@@ -84,8 +116,8 @@ function Doctor_Note() {
                     </label>
                 </div>
             </div> */}
-            {/* <div> */}
-                {/* <table className="table">
+      {/* <div> */}
+      {/* <table className="table">
                     <thead>
                         <tr>
                             <th className="border-2 text-center" scope="col">Data</th>
@@ -107,7 +139,7 @@ function Doctor_Note() {
                     </tbody>
                 </table>
             </div> */}
-            {/* <div className='d-sm-flex flex-sm-row justify-content-center justify-content-sm-between align-items-center'>
+      {/* <div className='d-sm-flex flex-sm-row justify-content-center justify-content-sm-between align-items-center'>
                 <p  className='text-center'>Showing 0 to 0 of 0 entries</p>
                 <div className='text-center'>
                 <div className='btn-group'>
@@ -122,7 +154,7 @@ function Doctor_Note() {
             
         </div> */}
     </div>
-  )
+  );
 }
 
-export default Doctor_Note
+export default Doctor_Note;

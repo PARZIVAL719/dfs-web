@@ -7,8 +7,11 @@ import Doctor_Guarantee_Create from "./components/doctorGuarantee/Doctor_Guarant
 import Doctor_Guarantee_Timetable from "./components/doctorGuarantee/Doctor_Guarantee_Timetable.jsx"
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap'
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css'
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.19.0/font/bootstrap-icons.css" rel="stylesheet"/>
+
+
+
 
 function App() {
  

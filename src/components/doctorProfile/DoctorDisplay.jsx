@@ -8,10 +8,10 @@ import { Link } from "react-router-dom";
 
 
 function DoctorDisplay({ info }) {
-  const detail = info.data;
+  const detail = info;
 
   const tableRef = useRef(null);
-  const [tableVisible, setTableVisible] = useState(false);
+  // const [tableVisible, setTableVisible] = useState(false);
 
   const navigate = useNavigate()
 

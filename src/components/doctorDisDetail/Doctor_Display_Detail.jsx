@@ -14,19 +14,27 @@ import Doctor_Guarantee from "./Doctor_Guarantee";
 import Doctor_Payment from "./Doctor_Payment";
 import Doctor_Note from "./Doctor_Note";
 import Doctor_File from "./Doctor_File";
-import NewpageButton from "../router/Newpage";
+import axios from "axios";
+// import NewpageButton from "../router/Newpage";
 
 const DoctorDetail = () => {
   let location = useLocation()
 
 
   const [code, setCode] = useState()
-  const { codes } = location.state;
+  
+  
+  const test = location.state;
+
+  const getDoctorDetail = ()=>{
+    await axios.post(`http://103.82.248.222:8883/interface_api/api_doctorProfileDetail`)
+  }
+  // const {codes} = location.state;
 
   useEffect(()=>{
     setCode(location.state)
     console.log(location.state);
-    console.log(codes);
+    // console.log(codes);
     
   },[location])
  
