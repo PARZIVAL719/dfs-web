@@ -1,5 +1,4 @@
-
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import BackMenu from "../router/BackMenu";
 
 import { Link, useLocation } from "react-router-dom";
@@ -18,83 +17,172 @@ import axios from "axios";
 // import NewpageButton from "../router/Newpage";
 
 const DoctorDetail = () => {
-  let location = useLocation()
+  let location = useLocation();
+
+  const [doctorDetal, setdoctorDetal] = useState({});
+  const [code, setCode] = useState();
+
+  const test = location?.state;
+  console.log(test);
+
+  // const getDoctorDetail = async () => {
+  //   let formData = new FormData();
+  //   console.log(formData);
+  //   formData.append("hospitalCode", "DEMO");
+
+  //   const username = "admin";
+  //   const password = "P@ssw0rd!1234";
+
+  //   const config = {
+  //     auth: {
+  //       username: username,
+
+  //       password: password,
+  //     },
+  //   };
+  //   // await axios.post(`http://103.82.248.222:8883/interface_api/api_doctorProfileDetail`,
+  //   // formData,
+  //   // config
+  //   // )
+  //   // .then((res) => {
+  //   //   console.log(res.data?.DOCTOR_DETAILS_DESC);
+  //   //   const { DOCTOR_DETAILS_DESC } = res.data;
+  //   // setdoctorDetal(DOCTOR_DETAILS_DESC)
+  //   //   console.log(doctorDetal);
+  //   // console.log(profileCode);
+  //   const response = await axios.post(
+  //     "http://103.82.248.222:8883/interface_api/api_doctorProfileDetail",
+  //     formData,
+  //     config
+  //   );
+  //   console.log(response.data);
+  //   console.log(response.data?.DOCTOR_DETAILS_DESC);
 
 
-  const [code, setCode] = useState()
+
   
-  
-  const test = location.state;
+  // };
+  const fetch = async () => {
+    let formData = new FormData();
+    formData.append("hospitalCode", "DEMO");
 
-  const getDoctorDetail = ()=>{
-    await axios.post(`http://103.82.248.222:8883/interface_api/api_doctorProfileDetail`)
-  }
+
+    const username = "admin";
+    const password = "P@ssw0rd!1234";
+
+    const config =   {
+      auth: {
+        username: username,
+        password: password,
+      },
+    };
+    await axios
+      .post(
+        "http://103.82.248.222:8883/interface_api/api_doctorProfileDetail",
+        formData,
+        config
+      )
+      .then((res) => {
+        console.log(res.data);
+        console.log(typeof(res.data));
+        console.log(res.data.DOCTOR_DETAILS_DESC)
+        
+      })
+  };
   // const {codes} = location.state;
 
-  useEffect(()=>{
-    setCode(location.state)
+  useEffect(() => {
+    console.log(doctorDetal);
+    setCode(location.state);
     console.log(location.state);
+    // getDoctorDetail();
+    fetch()
     // console.log(codes);
-    
-  },[location])
- 
+  }, [location]);
+
   console.log(code);
-  
+
   return (
     <div className=" fw-semibold">
-  <div className="container">
-    <div className="row">
-      <div className="card border-0 ">
-        <div className="card-body">
-          <div className="card">
-            <form action="">
-              <div className="card border-0">
-                <header className="card-header bg-secondary py-2 d-flex justify-content-between align-items-center">
-                  <div className="text-light">Doctor Detail</div>
-                  <div>
-                    <button type="button" className="btn btn-light btn-sm border border-secondary">Save</button>
+      <div className="container">
+        <div className="row">
+          <div className="card border-0 ">
+            <div className="card-body">
+              <div className="card">
+                <form action="">
+                  <div className="card border-0">
+                    <header className="card-header bg-secondary py-2 d-flex justify-content-between align-items-center">
+                      <div className="text-light">Doctor Detail</div>
+                      <div>
+                        <button
+                          type="button"
+                          className="btn btn-light btn-sm border border-secondary"
+                        >
+                          Save
+                        </button>
 
-                    <button type="reset" className="btn btn-light btn-sm border border-secondary">Reset</button>
-                    <Link to="/">
-                    <button type="button" className="btn btn-light btn-sm border border-secondary">Close</button>
-                    </Link>
+                        <button
+                          type="reset"
+                          className="btn btn-light btn-sm border border-secondary"
+                        >
+                          Reset
+                        </button>
+                        <Link to="/">
+                          <button
+                            type="button"
+                            className="btn btn-light btn-sm border border-secondary"
+                          >
+                            Close
+                          </button>
+                        </Link>
+                      </div>
+                    </header>
+                    <Doctor_Detail detail={doctorDetal} />
                   </div>
-                </header>
-                <Doctor_Detail />
-              </div>
-              <Doctor_Address />
-              <Doctor_Info />
-              <Doctor_Department />
-              <Doctor_Guarantee />
-              <Doctor_Payment />
-              <Doctor_Note />
-              <Doctor_File />
-            </form>
+                  <Doctor_Address />
+                  <Doctor_Info />
+                  <Doctor_Department />
+                  <Doctor_Guarantee />
+                  <Doctor_Payment />
+                  <Doctor_Note />
+                  <Doctor_File />
+                </form>
 
-            <div>
-              <header className="card-header navbar bg-secondary py-2 d-flex justify-content-between align-items-center">
                 <div>
-                  <button type="button" className="btn btn-light btn-sm border border-secondary" >Reset</button>
+                  <header className="card-header navbar bg-secondary py-2 d-flex justify-content-between align-items-center">
+                    <div>
+                      <button
+                        type="button"
+                        className="btn btn-light btn-sm border border-secondary"
+                      >
+                        Reset
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        className="btn btn-light btn-sm border border-secondary"
+                      >
+                        Ok
+                      </button>
+                      <Link to="/">
+                        <button
+                          type="button"
+                          className="btn btn-light btn-sm border border-secondary"
+                        >
+                          Close
+                        </button>
+                      </Link>
+                    </div>
+                  </header>
                 </div>
-                <div>
-                  <button type="button" className="btn btn-light btn-sm border border-secondary">Ok</button>
-                  <Link to="/">
-                  <button type="button" className="btn btn-light btn-sm border border-secondary">Close</button>
-                  </Link>
-                </div>
-              </header>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-    
-
   );
 };
 
 export default DoctorDetail;
-

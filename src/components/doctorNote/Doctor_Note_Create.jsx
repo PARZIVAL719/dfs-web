@@ -19,6 +19,7 @@ const dataNote1 = {
 function Doctor_Note_Create() {
   const [formNote, setformNote] = useState(dataNote1);
   const { note, setNote } = useContext(doctorContext);
+  const [isSuccess, setIsSuccess] = useState(false);
   const locations = useLocation();
 
   const validSelectRef = useRef();
@@ -46,22 +47,31 @@ function Doctor_Note_Create() {
     } else {
       validSelectRef.current.classList.remove("text-danger");
     }
+    
   };
 
   const confirmFun = () => {
     let currentDate = moment();
     console.log(currentDate);
-    formNote.DATE = currentDate.format(moment.HTML5_FMT.DATE);
-    formNote.TIME = currentDate.format("LTS");
+    formNote.DATE = currentDate.format("DD/MM/YYYY");
+    formNote.TIME = currentDate.format("HH:mm:ss");
+    console.log(formNote.DATE);
+    console.log(formNote.TIME);
     setNote([...note, formNote]);
-
+    setIsSuccess(true)
     console.log(formNote);
   };
 
   useEffect(() => {
+    if (isSuccess) {
+      // เปิด modal ที่ ID "exampleModal"
+      const modal = new bootstrap.Modal(document.getElementById("exampleModal"));
+      modal.show();
+    }
+
     if (locations?.state) setformNote(locations.state?.row);
     console.log(locations?.state?.row);
-  }, [locations]);
+  }, [locations],[isSuccess]);
 
   return (
     <div className=" fw-semibold font">
@@ -274,6 +284,13 @@ function Doctor_Note_Create() {
         </div>
       </div>
     </div>
+
+    
+
+
+    
+
+
   );
 }
 

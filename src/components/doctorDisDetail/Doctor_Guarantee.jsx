@@ -6,12 +6,23 @@ import DataTables  from 'datatables.net-bs5';
 function Doctor_Guarantee() {
 
 const tableRef = useRef()
+      var  info = [{"DATE" : "11/10/2024","TIME":"24","SUBJECT":"MATH","USERID":"1","ACTIVE":"1"},
+      {"DATE" : "11/10/2024","TIME":"24","SUBJECT":"MATH","USERID":"1","ACTIVE":"1"}
 
+  ]
 useEffect(()=>{
   console.log(tableRef.current);
   const table = new DataTables((tableRef.current),{
     ordering: false,
-    pagingType: 'full_numbers'
+    pagingType: 'full_numbers',
+	data:info,
+	columns: [
+        { data: "DATE", width: "30%" },
+        { data: "TIME", width: "30%" },
+        { data: "SUBJECT", width: "30%" },
+		{ data: "SUBJECT", width: "30%" },
+		{ data: "SUBJECT", width: "30%" },
+      ],
   })
   return()=>{
     table.destroy();

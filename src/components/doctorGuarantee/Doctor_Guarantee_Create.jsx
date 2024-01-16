@@ -1,7 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 function Doctor_Guarantee_Create() {
+
+  const garunteeNote = {
+    CODE: "",
+    GUARANTEE_TYPE: "",
+    DATE_START: "",
+    AMOUNT:"",
+    ALLOCATE: "",
+    INCLUDE_REVENUE: "",
+    DEPARTMENT: "",
+    RFG: "",
+    ABSORB: "",
+    EARL_TIME:"",
+    ACTIVE:"1",
+    LUMP_SUM :"1",
+    METHOD :"1",
+    DATE_EXPIRE:"",
+    EXTRA_HOUR : "",
+    OVER: "",
+    GURUNTEE_DAY:"",
+    GURANTEE_CATEGOTY :"",
+    LATE_TIME:""
+    
+  };
+const [fromNote,setFromNote] = useState(garunteeNote)
+const [noteArrTest,setNote]= useState([])
+
+
+useEffect(()=>{
+      console.log(fromNote);
+
+
+})
+
+const save = ()=>{
+  noteArrTest.push(fromNote)
+  console.log(noteArrTest);
+console.log("Click save gurantee");
+}
+
+
   return (
     <div className=" fw-semibold font">
       <div className="container">
@@ -55,7 +95,9 @@ function Doctor_Guarantee_Create() {
                 </label>
               </div>
               <div className="col-sm-3">
-                <select className="form-select" id="txtGuaranteeTypeCode">
+                <select className="form-select" id="txtGuaranteeTypeCode " value={fromNote.GUARANTEE_TYPE}  onChange={(e) =>
+                      setFromNote({ ...fromNote, GUARANTEE_TYPE: e.target.value })
+                    }>
                   <option defaultValue>Daily</option>
                   <option value="1">Daily to Monthly</option>
                   <option value="2">Monthly</option>
@@ -109,6 +151,10 @@ function Doctor_Guarantee_Create() {
                   id="txtGuaranteeStartDate"
                   className="form-control"
                   placeholder="DD/MM/YYYY"
+                  value={fromNote.DATE_START}
+                  onChange={(e) =>
+                    setFromNote({ ...fromNote, DATE_START: e.target.value })}
+
                 />
               </div>
               <div className="col-sm-3 text-sm-end">
@@ -122,6 +168,9 @@ function Doctor_Guarantee_Create() {
                   id="txtGuaranteeExpireDate"
                   className="form-control"
                   placeholder="DD/MM/YYYY"
+                  value={fromNote.DATE_EXPIRE}
+                  onChange={(e) =>
+                    setFromNote({ ...fromNote, DATE_EXPIRE: e.target.value })}
                 />
               </div>
             </div>
@@ -268,7 +317,7 @@ function Doctor_Guarantee_Create() {
 
               <div className="col-sm-3 text-sm-end">
                 <label className="col-form-label control-label ">
-                  Guarantee by Day
+                  Guarantee by Category
                 </label>
               </div>
               <div className="col-sm-3">
@@ -371,7 +420,7 @@ function Doctor_Guarantee_Create() {
                 <div className="d-flex">
                   <button
                     type="button"
-                    className="btn btn-light btn-sm border border-secondary"
+                    className="btn btn-light btn-sm border border-secondary"onClick={save}
                   >
                     Save
                   </button>

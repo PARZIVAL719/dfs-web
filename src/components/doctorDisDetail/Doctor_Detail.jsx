@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import getDisplay from "../samlpe_data/get_doctor_display_detail.json"
-function Doctor_Detail() {
+function Doctor_Detail(){
 
 
   const data = getDisplay 
   console.log(data);
+  // console.log(detail);
   return (
       <>
         <div className='card-body'>

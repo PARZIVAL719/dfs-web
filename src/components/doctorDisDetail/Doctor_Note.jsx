@@ -27,14 +27,14 @@ function Doctor_Note() {
           title: "Date",
           data: "DATE",
           render: function (data) {
-            return moment(data).format(moment.HTML5_FMT.DATE);
+            return data
           },
         },
         {
           title: "Time",
           data: "TIME",
           render: function (data) {
-            return moment(data,"hh:mm:ss");
+            return data
           },
         },
         { data: "NOTE_SUBJECT", width: "30%" },
@@ -70,7 +70,7 @@ function Doctor_Note() {
       </header>
       <div className="card-body">
         <table
-          className="table table-striped border border-light-subtle table-bordered "
+          className="table table-striped border border-light-subtle table-bordered"
           ref={tableRef}
         >
           <thead>
