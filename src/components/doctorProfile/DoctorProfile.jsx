@@ -94,7 +94,7 @@ function DoctorProfile() {
     const username = "admin";
     const password = "P@ssw0rd!1234";
 
-    const config =   {
+    const config = {
       auth: {
         username: username,
         password: password,
@@ -110,7 +110,7 @@ function DoctorProfile() {
       .then((res) => {
         console.log(res.data);
         setProfileCode(res.data?.DOCTOR_PROFILE_DETAIL);
-        setDoctorDetail(res.data?.DATATABLE)
+        setDoctorDetail(res.data?.DATATABLE);
         // console.log(profileCode);
       })
       .finally(() => hideDoctorList());
@@ -119,8 +119,8 @@ function DoctorProfile() {
   };
 
   useEffect(() => {
-    if (profileCode.CODE === "" ) clearDoctorList();
-    else if(profileCode.HOSPITAL_CODE === ""){
+    if (profileCode.CODE === "") clearDoctorList();
+    else if (profileCode.HOSPITAL_CODE === "") {
       setListDoc(listDocTxt);
       divListDoc.current.style.display = "block";
     }

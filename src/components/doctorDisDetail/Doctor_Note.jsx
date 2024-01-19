@@ -4,10 +4,6 @@ import moment from "moment/moment.js";
 import DataTables from "datatables.net-bs5";
 import { doctorContext } from "../globalState/DoctorDetailState.jsx";
 function Doctor_Note() {
-  //     var  info = [{"DATE" : "11/10/2024","TIME":"24","SUBJECT":"MATH","USERID":"1","ACTIVE":"1"},
-  //     {"DATE" : "11/10/2024","TIME":"24","SUBJECT":"MATH","USERID":"1","ACTIVE":"1"}
-
-  // ]
   const navigate = useNavigate()
   const tableRef = useRef();
   const { note } = useContext(doctorContext);
@@ -21,8 +17,7 @@ function Doctor_Note() {
       pagingType: "full_numbers",
       data: note,
       columns: [
-        // { "render": DataTables.render.moment('Do MMM YYYY'), "width": '30%' },
-        // DataTables.render.
+
         {
           title: "Date",
           data: "DATE",
@@ -70,7 +65,7 @@ function Doctor_Note() {
       </header>
       <div className="card-body">
         <table
-          className="table table-striped border border-light-subtle table-bordered"
+          className="table table-striped border border-light-subtle table-bordered w-100"
           ref={tableRef}
         >
           <thead>

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import BackMenu from "../router/BackMenu";
+import { useEffect, useState, createContext, useContext } from "react";
+// import BackMenu from "../router/BackMenu";
 
 import { Link, useLocation } from "react-router-dom";
-import { BsArrowLeft } from "react-icons/bs";
+// import { BsArrowLeft } from "react-icons/bs";
 
 // Components
 import Doctor_Detail from "./Doctor_Detail";
@@ -14,16 +14,25 @@ import Doctor_Payment from "./Doctor_Payment";
 import Doctor_Note from "./Doctor_Note";
 import Doctor_File from "./Doctor_File";
 import axios from "axios";
+import { doctorContext } from "../globalState/DoctorDetailState";
+
 // import NewpageButton from "../router/Newpage";
+const doctorAllDetailsContext = createContext();
 
 const DoctorDetail = () => {
   let location = useLocation();
 
-  const [doctorDetal, setdoctorDetal] = useState({});
-  const [code, setCode] = useState();
+  const [detail, setDetail] = useState({});
+  const [address, setAddress] = useState({});
+  const [department, setDepartment] = useState({});
+  const [file, setFile] = useState("");
+  const [info, setInfo] = useState({});
+  const [payment, setPayment] = useState({});
+  const [bsInfo, setBsInfo] = useState();
+
+  const { note, setNote, guarantee, setGuarantee } = useContext(doctorContext);
 
   const test = location?.state;
-  console.log(test);
 
   // const getDoctorDetail = async () => {
   //   let formData = new FormData();
@@ -58,19 +67,16 @@ const DoctorDetail = () => {
   //   console.log(response.data);
   //   console.log(response.data?.DOCTOR_DETAILS_DESC);
 
-
-
-  
   // };
   const fetch = async () => {
     let formData = new FormData();
     formData.append("hospitalCode", "DEMO");
-
+    // setFile("aosdjiuqh");
 
     const username = "admin";
     const password = "P@ssw0rd!1234";
 
-    const config =   {
+    const config = {
       auth: {
         username: username,
         password: password,
@@ -84,23 +90,24 @@ const DoctorDetail = () => {
       )
       .then((res) => {
         console.log(res.data);
-        console.log(typeof(res.data));
-        console.log(res.data.DOCTOR_DETAILS_DESC)
-        
-      })
+        setDetail(res.data?.DOCTOR_DETAILS_DESC);
+        setAddress(res.data?.DOCTOR_DETAILS_DESC);
+        setInfo(res.data?.DOCTOR_DETAILS_DESC);
+        setDepartment(res.data?.DEPARTMENT);
+        setGuarantee(res.data?.GUARANTEE);
+        setPayment(res.data?.DOCTOR_DETAILS_DESC)
+
+      });
   };
   // const {codes} = location.state;
 
   useEffect(() => {
-    console.log(doctorDetal);
-    setCode(location.state);
-    console.log(location.state);
+    console.log(guarantee);
+    setBsInfo(location.state);
     // getDoctorDetail();
-    fetch()
+    fetch();
     // console.log(codes);
   }, [location]);
-
-  console.log(code);
 
   return (
     <div className=" fw-semibold">
@@ -109,44 +116,68 @@ const DoctorDetail = () => {
           <div className="card border-0 ">
             <div className="card-body">
               <div className="card">
-                <form action="">
-                  <div className="card border-0">
-                    <header className="card-header bg-secondary py-2 d-flex justify-content-between align-items-center">
-                      <div className="text-light">Doctor Detail</div>
-                      <div>
-                        <button
-                          type="button"
-                          className="btn btn-light btn-sm border border-secondary"
-                        >
-                          Save
-                        </button>
-
-                        <button
-                          type="reset"
-                          className="btn btn-light btn-sm border border-secondary"
-                        >
-                          Reset
-                        </button>
-                        <Link to="/">
+                <doctorAllDetailsContext.Provider
+                  value={{
+                    detail,
+                    setDetail,
+                    address,
+                    setAddress,
+                    department,
+                    setDepartment,
+                    file,
+                    setFile,
+                    guarantee,
+                    setGuarantee,
+                    info,
+                    setInfo,
+                    note,
+                    setNote,
+                    payment,
+                    setPayment,
+                    bsInfo,
+                    setBsInfo,
+                  }}
+                >
+                  <form>
+                    <div className="card border-0">
+                      <header className="card-header bg-secondary py-2 d-flex justify-content-between align-items-center">
+                        <div className="text-light">Doctor Detail</div>
+                        <div>
                           <button
                             type="button"
                             className="btn btn-light btn-sm border border-secondary"
                           >
-                            Close
+                            Save
+                            {console.log(detail)}
                           </button>
-                        </Link>
-                      </div>
-                    </header>
-                    <Doctor_Detail detail={doctorDetal} />
-                  </div>
-                  <Doctor_Address />
-                  <Doctor_Info />
-                  <Doctor_Department />
-                  <Doctor_Guarantee />
-                  <Doctor_Payment />
-                  <Doctor_Note />
-                  <Doctor_File />
-                </form>
+
+                          <button
+                            type="reset"
+                            className="btn btn-light btn-sm border border-secondary"
+                          >
+                            Reset
+                          </button>
+                          <Link to="/">
+                            <button
+                              type="button"
+                              className="btn btn-light btn-sm border border-secondary"
+                            >
+                              Close
+                            </button>
+                          </Link>
+                        </div>
+                      </header>
+                      <Doctor_Detail />
+                    </div>
+                    <Doctor_Address />
+                    <Doctor_Info />
+                    <Doctor_Department />
+                    <Doctor_Guarantee />
+                    <Doctor_Payment />
+                    <Doctor_Note />
+                    <Doctor_File />
+                  </form>
+                </doctorAllDetailsContext.Provider>
 
                 <div>
                   <header className="card-header navbar bg-secondary py-2 d-flex justify-content-between align-items-center">
@@ -184,5 +215,5 @@ const DoctorDetail = () => {
     </div>
   );
 };
-
+export { doctorAllDetailsContext };
 export default DoctorDetail;

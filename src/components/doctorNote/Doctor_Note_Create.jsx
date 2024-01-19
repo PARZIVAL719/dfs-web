@@ -4,6 +4,9 @@ import dataNoteJson from "../samlpe_data/get_doctor_note.json";
 import { doctorContext } from "../globalState/DoctorDetailState.jsx";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { Modal } from "bootstrap";
+import $ from "jquery";
+import { FaCheckCircle, FaDotCircle } from "react-icons/fa";
 
 const dataNote1 = {
   DATE: "",
@@ -19,7 +22,7 @@ const dataNote1 = {
 function Doctor_Note_Create() {
   const [formNote, setformNote] = useState(dataNote1);
   const { note, setNote } = useContext(doctorContext);
-  const [isSuccess, setIsSuccess] = useState(false);
+  
   const locations = useLocation();
 
   const validSelectRef = useRef();
@@ -36,18 +39,18 @@ function Doctor_Note_Create() {
   };
 
   const validation = () => {
-    if (formNote.CONTENT.trim().length == 0) {
-      validTextRef.current.classList.add("text-danger");
-    } else {
-      validTextRef.current.classList.remove("text-danger");
-    }
-
-    if (formNote.NOTE_SUBJECT === "") {
-      validSelectRef.current.classList.add("text-danger");
-    } else {
-      validSelectRef.current.classList.remove("text-danger");
-    }
-    
+    // if (formNote.CONTENT.trim().length == 0) {
+    //   $(validTextRef.current).addClass("text-danger")
+    //   // validTextRef.current.classList.add("");
+    // } else {
+    //   $(validTextRef.current).removeClass("text-danger")
+    //   // validTextRef.current.classList.remove();
+    // }
+    // if (formNote.NOTE_SUBJECT === "") {
+    //   validSelectRef.current.classList.add("text-danger");
+    // } else {
+    //   validSelectRef.current.classList.remove("text-danger");
+    // }
   };
 
   const confirmFun = () => {
@@ -58,20 +61,19 @@ function Doctor_Note_Create() {
     console.log(formNote.DATE);
     console.log(formNote.TIME);
     setNote([...note, formNote]);
-    setIsSuccess(true)
+    showSuccessModal()
     console.log(formNote);
   };
 
-  useEffect(() => {
-    if (isSuccess) {
-      // เปิด modal ที่ ID "exampleModal"
-      const modal = new bootstrap.Modal(document.getElementById("exampleModal"));
-      modal.show();
-    }
+  const showSuccessModal = ()=>{
+    let modal = new Modal($('#successModal'));
+    modal.show()
+  }
 
+  useEffect(() => {
     if (locations?.state) setformNote(locations.state?.row);
     console.log(locations?.state?.row);
-  }, [locations],[isSuccess]);
+  }, [locations]);
 
   return (
     <div className=" fw-semibold font">
@@ -125,7 +127,7 @@ function Doctor_Note_Create() {
                     <option value="CONTRACT_CHANGE">
                       สัญญา-ปรับ/เปลี่ยนสัญญา
                     </option>
-                    <option value="	UPDATE_CANCEL">สัญญา-ยกเลิกสัญญา</option>
+                    <option value="UPDATE_CANCEL">สัญญา-ยกเลิกสัญญา</option>
                     <option value="DOCUMENT">เอกสาร</option>
                     <option value="Other">อื่นๆ</option>
                   </select>
@@ -219,7 +221,7 @@ function Doctor_Note_Create() {
                           ? ""
                           : "modal"
                       }
-                      data-bs-target="#exampleModal"
+                      data-bs-target="#exampleModal1"
                       onClick={validation}
                       //   disabled
                     >
@@ -244,15 +246,15 @@ function Doctor_Note_Create() {
 
       <div
         className="modal fade"
-        id="exampleModal"
+        id="exampleModal1"
         tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="exampleModalLabel1"
         aria-hidden="true"
       >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">
+              <h1 className="modal-title fs-5" id="exampleModalLabel1">
                 Confirmation
               </h1>
               <button
@@ -283,14 +285,36 @@ function Doctor_Note_Create() {
           </div>
         </div>
       </div>
+      {/* seccess modal */}
+      <div
+        className="modal fade"
+        id="successModal"
+        tabIndex="-1"
+        aria-labelledby="successModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="successModalLabel">
+                Information
+              </h1>
+            </div>
+            <div className="modal-body"><FaCheckCircle /> Save completed</div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
     </div>
-
-    
-
-
-    
-
-
   );
 }
 

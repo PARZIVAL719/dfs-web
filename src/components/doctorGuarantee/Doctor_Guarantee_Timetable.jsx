@@ -27,7 +27,7 @@ function Doctor_Guarantee_Timetable() {
                 <div className="input-group">
                   <input
                     type="text"
-                    className="form-control ui-autocomplete-input input-sm border-end-0"
+                    className="form-control  input-sm border-end-0"
                     id="department"
                     placeholder="Search"
                   />
