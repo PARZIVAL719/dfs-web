@@ -1,4 +1,3 @@
-
 import {Routes, Route} from "react-router-dom"
 import LoginPage from "./components/login/login.jsx"
 import DoctorProfile from './components/doctorProfile/DoctorProfile.jsx'
@@ -10,9 +9,6 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css'
-
-
-
 
 function App() {
  
