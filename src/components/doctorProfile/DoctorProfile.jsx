@@ -8,7 +8,7 @@ import axiosInstance from "../../api/axios";
 // import doctor_detail_json from "../samlpe_data/get_doctor_detail.json";
 // import listDocTxt from "../samlpe_data/lookup_mst_doctor_profile.json";
 
-const initialState1 = {
+const initialState = {
   ACTIVE: "",
   BIRTH_DATE: "",
   CODE: "",
@@ -24,28 +24,27 @@ const initialState1 = {
   USER_ID: "",
 };
 
-// const initialState = doctorProfileJson;
-
 function DoctorProfile() {
   const searchInput = useRef("");
   const divListDoc = useRef("");
 
-  const [profileCode, setProfileCode] = useState(initialState1);
+  const [profileCode, setProfileCode] = useState(initialState);
   const [listDoc, setListDoc] = useState([]);
   const [doctorDetail, setDoctorDetail] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const reset = () => {
     searchInput.current.disabled = false;
-    setProfileCode(initialState1);
+    setProfileCode(initialState);
     setDoctorDetail({ data: [] });
   };
 
   const save = async () => {
     try {
-      const updatedDocter = await updateDoctorProfile(profileCode);
-      console.log("Profile Updated:", updatedDocter);
+      const response = await axiosInstance.put(`/doctors/${profileCode.CODE}`, profileCode);
+      console.log("Profile Updated:", response.data);
       alert("Profile Updated Successfully");
+      fetchDoctorProfile();
     } catch (error) {
       console.error("Error updating profile", error);
       alert("Error updating profile");
@@ -73,14 +72,14 @@ function DoctorProfile() {
   const fetchDoctorProfile = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get(`/doctors/${profileCode.CODE}`); 
-      setProfileCode(response.data.DOCTOR_PROFILE_DETAIL); 
-      setDoctorDetail(response.data.DATATABLE); 
+      const response = await axiosInstance.get(`/doctors/${profileCode.CODE}`);
+      setProfileCode(response.data);
+      setDoctorDetail(response.data);
     } catch (error) {
       console.error("Error fetching doctor profile:", error);
       alert("Doctor not found!");
     } finally {
-      console.log("The code is :", profileCode.CODE);
+      console.log("Fetch Data From :", profileCode.CODE);
       setLoading(false);
       hideDoctorList();
     }
