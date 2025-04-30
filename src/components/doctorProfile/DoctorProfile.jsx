@@ -1,13 +1,12 @@
 import DoctorDisplay from "./DoctorDisplay";
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import axiosInstance from "../../api/axios";
 
-import doctorProfileJson from "../samlpe_data/getDoctorProfileDetail.json";
-
-import doctor_detail_json from "../samlpe_data/get_doctor_detail.json";
-
-import listDocTxt from "../samlpe_data/lookup_mst_doctor_profile.json";
+// import { getDoctorProfile, updateDoctorProfile } from "../../api/mockDocterService";
+// import doctorProfileJson from "../samlpe_data/getDoctorProfileDetail.json";
+// import doctor_detail_json from "../samlpe_data/get_doctor_detail.json";
+// import listDocTxt from "../samlpe_data/lookup_mst_doctor_profile.json";
 
 const initialState1 = {
   ACTIVE: "",
@@ -25,17 +24,16 @@ const initialState1 = {
   USER_ID: "",
 };
 
-const initialState = doctorProfileJson;
+// const initialState = doctorProfileJson;
 
 function DoctorProfile() {
   const searchInput = useRef("");
   const divListDoc = useRef("");
 
   const [profileCode, setProfileCode] = useState(initialState1);
-
   const [listDoc, setListDoc] = useState([]);
-
   const [doctorDetail, setDoctorDetail] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const reset = () => {
     searchInput.current.disabled = false;
@@ -43,8 +41,15 @@ function DoctorProfile() {
     setDoctorDetail({ data: [] });
   };
 
-  const save = () => {
-    console.log(profileCode);
+  const save = async () => {
+    try {
+      const updatedDocter = await updateDoctorProfile(profileCode);
+      console.log("Profile Updated:", updatedDocter);
+      alert("Profile Updated Successfully");
+    } catch (error) {
+      console.error("Error updating profile", error);
+      alert("Error updating profile");
+    }
   };
 
   const handleChange = (e) => {
@@ -57,72 +62,33 @@ function DoctorProfile() {
     hideDoctorList();
   };
 
-  const clearDoctorList = () => setListDoc([]);
-
-  const getDoctorData = (id) => {
-    console.log(id);
-    fetch();
-    hideDoctorList();
-    if (id === "13877") {
-      setProfileCode(initialState);
-      setDoctorDetail(doctor_detail_json);
+  const hideDoctorList = () => {
+    if (divListDoc.current) {
+      divListDoc.current.style.display = "none";
     }
   };
 
-  const hideDoctorList = () => {
-    divListDoc.current.style.display = "none";
-  };
+  const clearDoctorList = () => setListDoc([]);
 
-  // const fetch = ()=>{
-  //   // let formData = new FormData()
-  //   // formData.append("hospitalCode","DEMO")
-  //   // formData.append("doctorProfileCode",profileCode.code)
-  //   // await axios.post(`http://103.82.248.222:8989/autoComplete/lookup_mst_doctor_profile`,formData)
-  //   // .then(res=>{
-  //   //   setListDoc(res.data)
-  //   // })
-  //   // console.log(res.data);
-  //   divListDoc.current.style.display = "block"
-  //   setListDoc(listDocTxt)
-  // }
-
-  const fetch = async () => {
-    let formData = new FormData();
-    formData.append("hospitalCode", "DEMO");
-    formData.append("doctorProfileCode", profileCode.code);
-
-    const username = "admin";
-    const password = "P@ssw0rd!1234";
-
-    const config = {
-      auth: {
-        username: username,
-        password: password,
-      },
-    };
-
-    await axios
-      .post(
-        "http://103.82.248.222:8883/interface_api/api_doctorProfileMain",
-        formData,
-        config
-      )
-      .then((res) => {
-        console.log(res.data);
-        setProfileCode(res.data?.DOCTOR_PROFILE_DETAIL);
-        setDoctorDetail(res.data?.DATATABLE);
-        // console.log(profileCode);
-      })
-      .finally(() => hideDoctorList());
-
-    // console.log(profileCode);
+  const fetchDoctorProfile = async () => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.get(`/doctors/${profileCode.CODE}`); 
+      setProfileCode(response.data.DOCTOR_PROFILE_DETAIL); 
+      setDoctorDetail(response.data.DATATABLE); 
+    } catch (error) {
+      console.error("Error fetching doctor profile:", error);
+      alert("Doctor not found!");
+    } finally {
+      console.log("The code is :", profileCode.CODE);
+      setLoading(false);
+      hideDoctorList();
+    }
   };
 
   useEffect(() => {
-    if (profileCode.CODE === "") clearDoctorList();
-    else if (profileCode.HOSPITAL_CODE === "") {
-      setListDoc(listDocTxt);
-      divListDoc.current.style.display = "block";
+    if (profileCode.CODE === "") {
+      setListDoc([]);
     }
   }, [profileCode.CODE]);
 
@@ -381,7 +347,9 @@ function DoctorProfile() {
                   />
                 </div>
                 <div className="d-flex gap-3  ">
-                  <button type="button" className="btn btn-light btn-sm mb-3 ">
+                  <button type="button"
+                    className="btn btn-light btn-sm mb-3"
+                    onClick={fetchDoctorProfile}>
                     Display
                   </button>
                   <button
