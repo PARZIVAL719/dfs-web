@@ -5,19 +5,32 @@ import { FaCheckCircle, FaDotCircle } from "react-icons/fa";
 import DataTables from "datatables.net-bs5";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axiosInstance from "../../api/axios.js";
 
 function DoctorDisplay({ info }) {
-  const detail = info;
-
+  const [doctorData, setDoctorData] = useState([]);
+  // const detail = info;
   const tableRef = useRef(null);
+  const navigate = useNavigate();
   // const [tableVisible, setTableVisible] = useState(false);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchDoctorData = async () => {
+      try {
+        const response = await axiosInstance.get("/doctors");
+        setDoctorData(response.data);
+      } catch (error) {
+        console.error("Error fetching doctor data:", error);
+        alert("Failed to load doctor data.");
+      }
+    };
+    fetchDoctorData();
+  }, []);
 
   useEffect(() => {
     const dt = new DataTables(tableRef.current, {
       pagingType: "full_numbers",
-      data: detail,
+      data: doctorData,
       columns: [
         { data: "CODE", width: "30%" },
         { data: "NAME_ENG", width: "30%" },
@@ -27,7 +40,18 @@ function DoctorDisplay({ info }) {
           render: function (data) {
             return renderToString(
               <div className="text-center">
-                {data === "1" ? <FaCheckCircle /> : <FaDotCircle />}
+                {data === "1" || data === true ? (
+                  <FaCheckCircle style={{ color: "green" }} />
+                ) : (
+                  <FaDotCircle style={{ color: "red" }}/>
+                )}
+
+                {/* <input type="checkbox"
+                checked={data === "1" || data === true}
+                disabled
+                className="form-check-input"
+                style={{ cursor: "pointer" }}
+                /> */}
               </div>
             );
           },
@@ -47,14 +71,14 @@ function DoctorDisplay({ info }) {
     return () => {
       dt.destroy();
     };
-  }, [detail]);
+  }, [doctorData, navigate]);
 
   return (
     <div className="card border-0 m-2 ">
       <header className="card-header d-flex justify-content-between align-items-center bg-secondary py-1">
         <div className="text-light">Doctor Detail</div>
-        {/* <NewpageButton /> */}
-        <div className="flex ">
+        <NewpageButton />
+        {/* <div className="flex ">
           <Link to={detail.length > 0 ? "/newpage" : "#"}>
             <button
               type="button"
@@ -67,7 +91,7 @@ function DoctorDisplay({ info }) {
               New
             </button>
           </Link>
-        </div>
+        </div> */}
       </header>
 
       <div className="card-body">
