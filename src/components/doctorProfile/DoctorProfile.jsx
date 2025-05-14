@@ -27,12 +27,27 @@ const initialState = {
 function DoctorProfile() {
   const searchInput = useRef("");
   const divListDoc = useRef("");
-
   const [profileCode, setProfileCode] = useState(initialState);
-  const [listDoc, setListDoc] = useState([]);
   const [doctorDetail, setDoctorDetail] = useState([]);
+  const [listDoc, setListDoc] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const fetchDoctorProfile = async () => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.get(`/getDoctors/${profileCode.CODE}`);
+      setProfileCode(response.data);
+      setDoctorDetail(response.data);
+    } catch (error) {
+      console.error("Error fetching doctor profile:", error);
+      alert("Doctor not found!");
+    } finally {
+      console.log("Fetch Data From :", profileCode.CODE);
+      setLoading(false);
+      hideDoctorList();
+    }
+  };
+  
   const reset = () => {
     searchInput.current.disabled = false;
     setProfileCode(initialState);
@@ -40,6 +55,10 @@ function DoctorProfile() {
   };
 
   const save = async () => {
+    if (doctorDetail.length === 0) {
+      alert("Please select a doctor profile first by clicking 'Display'!");
+      return;
+    }
     try {
       const response = await axiosInstance.put(`/doctors/${profileCode.CODE}`, profileCode);
       console.log("Profile Updated:", response.data);
@@ -67,23 +86,7 @@ function DoctorProfile() {
     }
   };
 
-  const clearDoctorList = () => setListDoc([]);
-
-  const fetchDoctorProfile = async () => {
-    try {
-      setLoading(true);
-      const response = await axiosInstance.get(`/doctors/${profileCode.CODE}`);
-      setProfileCode(response.data);
-      setDoctorDetail(response.data);
-    } catch (error) {
-      console.error("Error fetching doctor profile:", error);
-      alert("Doctor not found!");
-    } finally {
-      console.log("Fetch Data From :", profileCode.CODE);
-      setLoading(false);
-      hideDoctorList();
-    }
-  };
+  // const clearDoctorList = () => setListDoc([]);
 
   useEffect(() => {
     if (profileCode.CODE === "") {
@@ -154,7 +157,7 @@ function DoctorProfile() {
                     className="form-check-input me-2"
                     id="radioActive1"
                     name="radioActive"
-                    value="1"
+                    value="true"
                     checked={profileCode.ACTIVE == "1"}
                     onChange={(e) =>
                       setProfileCode({ ...profileCode, ACTIVE: e.target.value })
@@ -171,8 +174,8 @@ function DoctorProfile() {
                     className="form-check-input me-2"
                     id="radioActive0"
                     name="radioActive"
-                    value="0"
-                    checked={profileCode.ACTIVE === "0"}
+                    value="false"
+                    checked={profileCode.ACTIVE == "0"}
                     onChange={(e) =>
                       setProfileCode({ ...profileCode, ACTIVE: e.target.value })
                     }
@@ -185,7 +188,8 @@ function DoctorProfile() {
                   </label>
                 </div>
               </div>
-              <div className="row mt-3 mb-3 ">
+
+              <div className="row mt-3 mb-3">
                 <div className="col-sm-3 text-sm-end">
                   <label
                     htmlFor="employeeID"
@@ -208,10 +212,34 @@ function DoctorProfile() {
                     }
                   />
                 </div>
-                <div className="col-sm-3 text-sm-end">
-                  <label className="col-form-label">Nation ID</label>
+                
+                {/* <div className="col-sm-3 text-sm-end">
+                  <label
+                    className=" col-form-label control-label"
+                  >
+                    Hospital Code
+                  </label>
                 </div>
-                <div className="col-sm-3 d-flex gx-3  ">
+
+                <div className="col-sm-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={profileCode.HOSPITAL_CODE}
+                    onChange={(e) =>
+                      setProfileCode({ ...profileCode, HOSPITAL_CODE: e.target.value })
+                    }
+                  />
+                </div> */}
+
+                <div className="col-sm-3 text-sm-end">
+                  <label
+                    className="col-form-label"
+                    >
+                    Nation ID
+                  </label>
+                </div>
+                <div className="col-sm-2 d-flex">
                   <input
                     type="text"
                     className="form-control"
@@ -226,6 +254,7 @@ function DoctorProfile() {
                   />
                 </div>
               </div>
+
               <div className="row mb-3 ">
                 <label
                   htmlFor="nameEng"
@@ -361,7 +390,6 @@ function DoctorProfile() {
                 </div>
               </div>
             </div>
-
             <DoctorDisplay info={doctorDetail} />
           </div>
         </form>
