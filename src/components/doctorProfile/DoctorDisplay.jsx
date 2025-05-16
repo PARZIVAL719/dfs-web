@@ -17,7 +17,7 @@ function DoctorDisplay({ info }) {
   useEffect(() => {
     const fetchDoctorData = async () => {
       try {
-        const response = await axiosInstance.get("/doctors");
+        const response = await axiosInstance.get("/doctorProfiles");
         setDoctorData(response.data);
       } catch (error) {
         console.error("Error fetching doctor data:", error);
