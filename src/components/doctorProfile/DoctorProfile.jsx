@@ -33,41 +33,85 @@ function DoctorProfile() {
   const [loading, setLoading] = useState(false);
 
   const fetchDoctorProfile = async () => {
+    if (!profileCode.CODE) {
+      alert("Please enter doctor profile code");
+      return;
+    }
+
     try {
       setLoading(true);
-      const response = await axiosInstance.get(`/getDoctors/${profileCode.CODE}`);
-      setProfileCode(response.data);
-      setDoctorDetail(response.data);
+
+      const response = await axiosInstance.get(`/doctorProfiles/${profileCode.CODE}`);
+      const data = response.data;
+
+      if (!data || !data.CODE) {
+        alert("Doctor data not found!");
+        setProfileCode(initialState);
+        setDoctorDetail([]);
+        return;
+      }
+
+      setProfileCode({
+        ...data,
+        ACTIVE: data.ACTIVE ? "1" : "0",
+      });
+      setDoctorDetail(data);
+
     } catch (error) {
       console.error("Error fetching doctor profile:", error);
-      alert("Doctor not found!");
+      alert("Error fetching doctor profile!");
     } finally {
-      console.log("Fetch Data From :", profileCode.CODE);
       setLoading(false);
       hideDoctorList();
+      console.log("Doctor Profile:", profileCode);
     }
   };
-  
+
+  const save = async () => {
+  if (!profileCode.CODE) {
+    alert("Please select a doctor profile first by clicking 'Display'!");
+    return;
+  }
+  try {
+    // เตรียมข้อมูลสำหรับส่งไป update
+    // แปลง ACTIVE จาก "1"/"0" เป็น boolean true/false
+    const payload = {
+      ...profileCode,
+      ACTIVE: profileCode.ACTIVE === "1",
+      // หาก backend คาดหวังให้ส่ง doctorDetailsDescs ก็ต้องเพิ่มใน payload ด้วย
+      // doctorDetailsDescs: doctorDetail.doctorDetailsDescs || [],
+    };
+
+    const response = await axiosInstance.put(`/doctorProfiles/${profileCode.CODE}`, payload);
+    console.log("Profile Updated:", response.data);
+    alert("Profile Updated Successfully");
+    fetchDoctorProfile(); // โหลดข้อมูลใหม่หลัง update
+  } catch (error) {
+    console.error("Error updating profile", error);
+    alert("Error updating profile");
+  }
+};
+
+  // const save = async () => {
+  //   if (doctorDetail.length === 0) {
+  //     alert("Please select a doctor profile first by clicking 'Display'!");
+  //     return;
+  //   }
+  //   try {
+  //     const response = await axiosInstance.put(`/doctorProfiles/${profileCode.CODE}`, profileCode);
+  //     console.log("Profile Updated:", response.data);
+  //     alert("Profile Updated Successfully");
+  //     fetchDoctorProfile();
+  //   } catch (error) {
+  //     console.error("Error updating profile", error);
+  //     alert("Error updating profile");
+  //   }
+  // };
+
   const reset = () => {
     searchInput.current.disabled = false;
     setProfileCode(initialState);
     setDoctorDetail({ data: [] });
-  };
-
-  const save = async () => {
-    if (doctorDetail.length === 0) {
-      alert("Please select a doctor profile first by clicking 'Display'!");
-      return;
-    }
-    try {
-      const response = await axiosInstance.put(`/doctors/${profileCode.CODE}`, profileCode);
-      console.log("Profile Updated:", response.data);
-      alert("Profile Updated Successfully");
-      fetchDoctorProfile();
-    } catch (error) {
-      console.error("Error updating profile", error);
-      alert("Error updating profile");
-    }
   };
 
   const handleChange = (e) => {
@@ -212,7 +256,7 @@ function DoctorProfile() {
                     }
                   />
                 </div>
-                
+
                 {/* <div className="col-sm-3 text-sm-end">
                   <label
                     className=" col-form-label control-label"
@@ -235,7 +279,7 @@ function DoctorProfile() {
                 <div className="col-sm-3 text-sm-end">
                   <label
                     className="col-form-label"
-                    >
+                  >
                     Nation ID
                   </label>
                 </div>
