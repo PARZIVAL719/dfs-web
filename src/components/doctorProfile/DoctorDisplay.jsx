@@ -17,44 +17,38 @@ function DoctorDisplay({ info }) {
   useEffect(() => {
     const fetchDoctorData = async () => {
       try {
-        const response = await axiosInstance.get("/doctorProfiles");
-        setDoctorData(response.data);
+        const response = await axiosInstance.get('/doctorProfiles/${profileCode.CODE}');
+        setDoctorData([response.data]);
       } catch (error) {
         console.error("Error fetching doctor data:", error);
-        alert("Failed to load doctor data.");
+        //alert("Failed to load doctor data.");
       }
     };
     fetchDoctorData();
   }, []);
 
   useEffect(() => {
+    if (!info || info.length === 0) return;
+
     const dt = new DataTables(tableRef.current, {
       pagingType: "full_numbers",
-      data: doctorData,
+      data: info,
       columns: [
-        { data: "CODE", width: "30%" },
+        { data: "DOCTOR_CODE", width: "30%" },
         { data: "NAME_ENG", width: "30%" },
-        { data: "DOCTOR_CATEGORY_CODE", width: "30%" },
+        { data: "DOCTOR_CATEGORY", width: "30%" },
         {
           data: "ACTIVE",
-          render: function (data) {
-            return renderToString(
+          render: (data) =>
+            renderToString(
               <div className="text-center">
-                {data === "1" || data === true ? (
+                {data === true || data === "1" ? (
                   <FaCheckCircle style={{ color: "green" }} />
                 ) : (
-                  <FaDotCircle style={{ color: "red" }}/>
+                  <FaDotCircle style={{ color: "red" }} />
                 )}
-
-                {/* <input type="checkbox"
-                checked={data === "1" || data === true}
-                disabled
-                className="form-check-input"
-                style={{ cursor: "pointer" }}
-                /> */}
               </div>
-            );
-          },
+            ),
           width: "10%",
         },
       ],
@@ -71,7 +65,7 @@ function DoctorDisplay({ info }) {
     return () => {
       dt.destroy();
     };
-  }, [doctorData, navigate]);
+  }, [info, navigate]);
 
   return (
     <div className="card border-0 m-2 ">

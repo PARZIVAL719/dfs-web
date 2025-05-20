@@ -53,9 +53,10 @@ function DoctorProfile() {
 
       setProfileCode({
         ...data,
-        ACTIVE: data.ACTIVE ? "1" : "0",
+        ACTIVE: data.ACTIVE ? "true" : "false",
       });
-      setDoctorDetail(data);
+      setDoctorDetail(data.doctorDetailsDescs || []);
+
 
     } catch (error) {
       console.error("Error fetching doctor profile:", error);
@@ -68,29 +69,25 @@ function DoctorProfile() {
   };
 
   const save = async () => {
-  if (!profileCode.CODE) {
-    alert("Please select a doctor profile first by clicking 'Display'!");
-    return;
-  }
-  try {
-    // เตรียมข้อมูลสำหรับส่งไป update
-    // แปลง ACTIVE จาก "1"/"0" เป็น boolean true/false
-    const payload = {
-      ...profileCode,
-      ACTIVE: profileCode.ACTIVE === "1",
-      // หาก backend คาดหวังให้ส่ง doctorDetailsDescs ก็ต้องเพิ่มใน payload ด้วย
-      // doctorDetailsDescs: doctorDetail.doctorDetailsDescs || [],
-    };
+    if (!profileCode.CODE) {
+      alert("Please select a doctor profile first by clicking 'Display'!");
+      return;
+    }
+    try {
+      const payload = {
+        ...profileCode,
+        ACTIVE: profileCode.ACTIVE === "true",
+      };
 
-    const response = await axiosInstance.put(`/doctorProfiles/${profileCode.CODE}`, payload);
-    console.log("Profile Updated:", response.data);
-    alert("Profile Updated Successfully");
-    fetchDoctorProfile(); // โหลดข้อมูลใหม่หลัง update
-  } catch (error) {
-    console.error("Error updating profile", error);
-    alert("Error updating profile");
-  }
-};
+      const response = await axiosInstance.put(`/doctorProfiles/${profileCode.CODE}`, payload);
+      console.log("Profile Updated:", response.data);
+      alert("Profile Updated Successfully");
+      fetchDoctorProfile(); 
+    } catch (error) {
+      console.error("Error updating profile", error);
+      alert("Error updating profile");
+    }
+  };
 
   // const save = async () => {
   //   if (doctorDetail.length === 0) {
@@ -202,7 +199,7 @@ function DoctorProfile() {
                     id="radioActive1"
                     name="radioActive"
                     value="true"
-                    checked={profileCode.ACTIVE == "1"}
+                    checked={profileCode.ACTIVE == "true"}
                     onChange={(e) =>
                       setProfileCode({ ...profileCode, ACTIVE: e.target.value })
                     }
@@ -219,7 +216,7 @@ function DoctorProfile() {
                     id="radioActive0"
                     name="radioActive"
                     value="false"
-                    checked={profileCode.ACTIVE == "0"}
+                    checked={profileCode.ACTIVE == "false"}
                     onChange={(e) =>
                       setProfileCode({ ...profileCode, ACTIVE: e.target.value })
                     }
