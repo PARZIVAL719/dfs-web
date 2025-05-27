@@ -1,12 +1,30 @@
-import { useRef, useEffect, useContext } from "react";
+import { useRef, useEffect, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment/moment.js";
 import DataTables from "datatables.net-bs5";
 import { doctorContext } from "../globalState/DoctorDetailState.jsx";
+import axiosInstance from "../../api/axios.js";
+import { FaCheckCircle, FaDotCircle } from "react-icons/fa";
+import { renderToString } from "react-dom/server";
+
 function Doctor_Note() {
   const navigate = useNavigate()
   const tableRef = useRef();
-  const { note } = useContext(doctorContext);
+
+  const { note, setNote } = useContext(doctorContext);
+  const [ search, setSearch ] = useState("");
+
+  const fetchNote = async (doctor_code) => {
+      try {
+        const response = await axiosInstance.get(`/doctorDetails/${doctor_code}`);
+        const notesData = response.data.NOTES || [];
+        setNote(notesData);
+        console.log(notesData);
+      } catch (error) {
+        console.error("Error fetching notes:", error);
+        setNote([]);
+      }
+    };
 
   useEffect(() => {
     // console.log(info);
@@ -15,40 +33,52 @@ function Doctor_Note() {
     const dt = new DataTables(tableRef.current, {
       ordering: false,
       pagingType: "full_numbers",
+      dom: 't', // only show table body naja eiei
       data: note,
       columns: [
-
         {
           title: "Date",
-          data: "DATE",
+          data: "UPDATE_DATE",
           render: function (data) {
             return data
           },
         },
         {
           title: "Time",
-          data: "TIME",
+          data: "UPDATE_TIME",
           render: function (data) {
-            return data
+            return moment(data, "HH:mm:ss.SSS").format("HH:mm:ss");
           },
         },
         { data: "NOTE_SUBJECT", width: "30%" },
-        { data: "USERID", width: "10%" },
-        { data: "ACTIVE", width: "10%" },
+        { data: "USER_ID", width: "10%" },
+        {
+          data: "ACTIVE",
+          render: (data) =>
+            renderToString(
+              <div className="text-center">
+                {data === true || data === "1" || data === 1 ? (
+                  <FaCheckCircle style={{ color: "green" }} />
+                ) : (
+                  <FaDotCircle style={{ color: "red" }} />
+                )}
+              </div>
+            ),
+          width: "10%",
+        },
       ],
     });
 
-    dt.off('dblclick').on('dblclick','tr',(e)=>{
-        let row = dt.row(e.currentTarget).data()
-        row && navigate('/noteCreate',{state:{row}})
-        console.log(row);
+    dt.off('dblclick').on('dblclick', 'tr', (e) => {
+      let row = dt.row(e.currentTarget).data()
+      row && navigate('/noteCreate', { state: { row } })
+      console.log(row);
     })
     return () => {
       dt.destroy();
     };
   }, [note]);
 
-  
 
   return (
     <div>
@@ -63,6 +93,32 @@ function Doctor_Note() {
           </button>
         </Link>
       </header>
+
+      <div className="d-flex justify-content-center my-3">
+        <div className="input-group w-auto" style={{ maxWidth: "300px" }}>
+          <input
+            type="text"
+            className="form-control form-control-sm"
+            placeholder="Enter Doctor Code"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                fetchNote(search.trim());
+              }
+            }}
+          />
+          <button
+            className="btn btn-light btn-sm border border-secondary"
+            type="button"
+            onClick={() => fetchNote(search.trim())}
+          >
+            Search
+          </button>
+        </div>
+      </div>
+
+
       <div className="card-body">
         <table
           className="table table-striped border border-light-subtle table-bordered w-100"
